@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router";
 import { signUp } from "../../services/authService.js";
+import { UserContext } from "../../contexts/UserContext.jsx";
 
 function SignUpForm() {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -23,7 +26,9 @@ function SignUpForm() {
     e.preventDefault();
 
     const newUser = await signUp(formData);
-    console.log(newUser);
+    
+    setUser(newUser);
+    navigate("/");
   };
 
   return (

@@ -18,7 +18,7 @@ function NavBar() {
         <ul>
           <li>Welcome, {user.username}</li>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">Dashboard</Link>
           </li>
           <li>
             <button onClick={handleSignOut}>Sign Out</button>

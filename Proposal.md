@@ -78,6 +78,9 @@ The purpose of the application is to make it easy for users to decide what to we
 
 [Link to Mockflow Wireframe](https://app.mockflow.com/view/MG0tpEREQrb/)
 
+## Component Hierarchy Diagram
+Component Hierarchy Diagram.png
+
 ## Entity Relationship Diagrams (ERDs)
 
 ![userERD](./public/static%20assets/userERD.jpg)

@@ -64,9 +64,7 @@ The purpose of the application is to make it easy for users to decide what to we
 ## Wire Frames
 ### Application Web Pages
 
-![Landing/Login Page](./public/static%20assets/WireFrame1.png)
-
-![Search Page](./public/static%20assets/WireFrame2.png)
+![Wireframes](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/Wireframes.png?raw=true)
 
 ## Component Hierarchy Diagram
 ![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
@@ -86,32 +84,35 @@ The purpose of the application is to make it easy for users to decide what to we
 ```js
 /*-------------------------------- Import --------------------------------*/
 // express
+// react
+// react-router
 // mongoose
 // dotenv
 // method-override
 // morgan
 // express-session
 // bcrypt
-
-/*------------------------------- Views -------------------------------*/
-// Landing/Login
-// Search
-// Search Results/Edit Search
-// Show Trip Details
-// Create/Edit/Delete Account
-
+// CORS
+// db
+/*------------------------------- Pages -------------------------------*/
+// Landing/Login/Signup
+// Recommendations
+// Closet
 /*-------------------------------- Routes --------------------------------*/
-// GET Landing/Sign in
 // POST Sign in
-// GET Sign up
 // POST Sign up
+// GET account
 // PUT Edit Account
 // DELETE Account
+// GET weather
+// GET Recommended outfit
+// GET closet
+// GET saved outsfits
+// PUT edit saved outfits
+// POST Add new clothing item
+// PUT Edit clothing
+// DELETE clothing
 // GET Sign out
-// GET Search
-// GET Search Results
-// GET Show Trip Details
-
 ```
 
 ## Timeline

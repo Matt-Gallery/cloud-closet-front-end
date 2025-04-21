@@ -71,11 +71,11 @@ The purpose of the application is to make it easy for users to decide what to we
 ## Component Hierarchy Diagram
 ![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
 
-## Entity Relationship Diagrams (ERDs)
+## Entity Relationship Diagram (ERD)
 
-![userERD](./public/static%20assets/userERD.jpg)
+![ERD](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/ERD.png?raw=true)
 
-![flightERD](./public/static%20assets/flightERD.jpg)
+
 
 ## Routing Table
 

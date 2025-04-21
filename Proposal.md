@@ -8,10 +8,6 @@
 
 The purpose of the application is to make it easy for users to decide what to wear each day based on the weather forecast.  It will allow users to build a database of items they have in their wardrobe and some parameters for what weather they prefer to wear each item in and then based on the weather forecast it will propse outfit options for the day.
 
-## MVP Assumptions
- - 
- - 
-
 ## User Stories
 
 ### MVP Goals
@@ -72,14 +68,6 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ![Search Page](./public/static%20assets/WireFrame2.png)
 
-![Search Results/Search Update Page](./public/static%20assets/WireFrame3.png)
-
-![Show Trip Detail Page](./public/static%20assets/WireFrame4.png)
-
-![Create/Edit/Delete Account Page](./public/static%20assets/WireFrame5.png)
-
-[Link to Mockflow Wireframe](https://app.mockflow.com/view/MG0tpEREQrb/)
-
 ## Component Hierarchy Diagram
 ![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
 
@@ -89,14 +77,9 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ![flightERD](./public/static%20assets/flightERD.jpg)
 
-![hotelERD](./public/static%20assets/hotelERD.jpg)
-
-![bookingERD](./public/static%20assets/bookingERD.jpg)
-
 ## Routing Table
 
 ![Routing Table](./public/static%20assets/routingTable.jpg)
-
 
 ## Pseudocode
 ```js
@@ -135,8 +118,8 @@ The purpose of the application is to make it easy for users to decide what to we
 | Day        |   | Task                               | Blockers | Notes/ Thoughts |
 |------------|---|------------------------------------|----------|-----------------|
 | Monday     |   | Create and present proposal        |          |                 |
-| Tuesday    |   | Create HTML & JavaScript           |          |                 |
-| Wedenesday |   | Work on JavaScript & CSS           |          |                 |
+| Tuesday    |   | Create Auth, Routes, Components    |          |                 |
+| Wedenesday |   | Integrate Front & Back Ends        |          |                 |
 | Thursday   |   | Work on JavaScript & CSS           |          |                 |
 | Friday     |   | Test and finalize MVP              |          |                 |
 | Saturday   |   | Work on stretch goals              |          |                 |

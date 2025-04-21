@@ -2,7 +2,7 @@
 
 ## Project Description
 
-### Our application is called XXXXXXX. It provides recommendations to users on what outfit to wear based on their saved wardrobe items and the weather forecast.
+### Our application is called Closet Cloud. It provides recommendations to users on what outfit to wear based on their saved wardrobe items and the weather forecast.
 
 ## Application Description
 

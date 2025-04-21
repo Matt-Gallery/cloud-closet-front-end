@@ -79,7 +79,8 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ## Routing Table
 
-![Routing Table](./public/static%20assets/routingTable.jpg)
+![Routing Table](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/Routing%20Table.png?raw=true)
+
 
 ## Pseudocode
 ```js

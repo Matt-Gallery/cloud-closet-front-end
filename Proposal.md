@@ -81,7 +81,7 @@ The purpose of the application is to make it easy for users to decide what to we
 [Link to Mockflow Wireframe](https://app.mockflow.com/view/MG0tpEREQrb/)
 
 ## Component Hierarchy Diagram
-[Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
+![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
 
 ## Entity Relationship Diagrams (ERDs)
 
@@ -97,47 +97,6 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ![Routing Table](./public/static%20assets/routingTable.jpg)
 
-## Directory Structure
-
-```bash
-├── controllers
-│   ├── auth.js
-│   ├── user.js
-│   ├── search.js
-├── db
-│   ├── connection.js
-├── middleware
-│   ├── isSignedIn.js
-│   ├── passUserToViews.js
-├── models
-│   ├── user.js
-│   ├── seach.js
-│   ├── hotel.js
-│   ├── flight.js
-├── node_modules
-├── views
-│   ├── auth
-│   │   ├── sign-in.ejs
-│   │   ├── sign-up.ejs
-│   ├── userAccount
-│   │   ├── index.ejs
-│   ├── search
-│   │   ├── index.ejs
-│   │   ├── results.ejs
-│   │   ├── show.ejs
-│   ├── partials
-│   │   ├── _navbar.ejs
-│   ├── index.ejs
-├── seed
-│   ├── data.js
-├── .env
-├── .gitignore
-├── README.md
-├── package-lock.json
-├── package.json
-├── server.js
-
-```
 
 ## Pseudocode
 ```js

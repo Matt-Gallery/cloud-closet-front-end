@@ -1,4 +1,4 @@
-# weather-wardrobe
+# Closet Cloud
 
 ## Project Description
 
@@ -31,9 +31,7 @@ The purpose of the application is to make it easy for users to decide what to we
 - **View Outfit Recommendations**
     - As a user, I want to receive recommendations for outfits to wear based on the items saved in my wardrobe and the weather forecast.
 - **Cycle Wardrobe Item Recommendations**
-    - As a user, I want to to be able to:
-      * Tell the app that I don't want to wear a particular wardrobe item today and have it cycle that item to another recommendation
-      * Tell the app that I don't want to wear a particular wardrobe item ever in the recommended outfit combination and have it cycle that item to another recommendation and save this preference and have it applied to future recommendations
+    - As a user, I want to to be able to tell the app that I don't want to wear a particular wardrobe item today and have it cycle that item to another recommendation so I can get to an outfit combination that I like.
 - **Cycle Outfit Recommendation**
     - As a user, I want to to be able to:
       * Tell the app that I don't want to wear a recommended outfit today and have it cycle the entire outfit to another recommendation
@@ -45,12 +43,12 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ### Stretch Goals
 - **More Specific Response Options for Recommendations**
-    - As a user, when I'm cylcling through different outfit options I want to be able to specify whether I'm rejecting a particular wardroom item for today's outfit or I don't like that item in combination with the rest of a recommended outfit so I never want to see that combination again so that I can better refine my future recommendations.
+    - As a user, when I'm cycling through different outfit options I want to be able to specify whether I'm rejecting a particular wardroom item for today's outfit or I don't like that item in combination with the rest of a recommended outfit so I never want to see that combination again so that I can better refine my future recommendations.
 - **Adjust Mix of Recommendations Between Rated and Unrated Outfits**
     - As a user, I want to be able to adjust the mix of outfit recommendations I receive between ones that I've rated and new ones that I haven't rated.
 - **Connect Wardrobe Item Creation Function to Web/Internal DB Search for Item**
     - As a user, as I'm creating/editing a wardrobe item I want to be given example items to choose from pulled from the web so that I can select the actual item and have it easily populated with correct information and photo.
-- **Wish/Shoppint List**
+- **Wish/Shopping List**
     - As a user, I want to be able to create a wish/shopping list so that I can keep track of items I want to add to my wardrobe and can more easily shop for them.
 - **Trip Packing List**
     - As a user, I want to be able to create multi-day sets of outfits so that I can plan my wardrobe over longer periods and can create packing lists when traveling.
@@ -59,7 +57,7 @@ The purpose of the application is to make it easy for users to decide what to we
 - **Specific Occasion Filter**
     - As a user, I want to be able to filter my outfit recommendations based on what I have planned for the day so that I get better recommendations more quickly.
 - **More Detailed User Profile**
-    - As a user, I want to be able to save more information about myslef to my profile so that I get better recommendations more quickly.
+    - As a user, I want to be able to save more information about myself to my profile so that I get better recommendations more quickly.
 
 ## Wire Frames
 ### Application Web Pages

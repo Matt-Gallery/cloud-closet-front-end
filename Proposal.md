@@ -28,7 +28,7 @@ The purpose of the application is to make it easy for users to decide what to we
     - As a user, I want to be able to delete my account, so that I can protect my data and reduce spam communications if I choose to no longer use this application.
     - This feature will be included on the edit account page, it just adds a delete button.
 - **Create New Wardrobe Items**
-    - As a user, I want to be able to add items to my wardrobe so that those items are included in my outfit recommendations.
+    - As a user, I want to be able to add items to my wardrobe and assign each item a rating so that those items are included in my outfit recommendations.
     - Each wardrobe item should include basic parameters for the weather conditions in which that item should be worn.
 - **Update/Delete Wardrobe Items**
     - As a user, I want to be able to update or delete any of the items saved in my wardrobe so that the items in my wardrobe are accurate.
@@ -45,21 +45,23 @@ The purpose of the application is to make it easy for users to decide what to we
 - **View Rated Outfits**
     - As a user, I want to to be able to view all of the outfits I've rated.
 - **Edit Rated Outfits**
-    - As a user, I want to to be able to view all of the outfits I've rated.
+    - As a user, I want to to be able to edit each of the outfits I've rated.
 
 ### Stretch Goals
+- **More Specific Response Options for Recommendations**
+    - As a user, I want to be able to specify 
 - **Adjust Mix of Recommendations Between Rated and Unrated Outfits**
     - As a user, I want to be able to adjust the mix of outfit recommendations I receive between ones that I've rated and new ones that I haven't rated.
-- **Allow Flexible Total Trip Length**
-    - As a user, I want to be able to search for trips with a fixed total length and variable numbers of days in each city, so that I can find better deals when I have flexibility in my plans and don’t care exactly how many days I spend in each city.
-    - This should include:
-        * An option to set the total trip length
-- **Allow Flexible Search Days**
+- **Connect Wardrobe Item Creation Function to Web/Internal DB Search for Item**
+    - As a user, as I'm creating/editing a wardrobe item I want to be given example items to choose from pulled from the web so that I can select the actual item and have it easily populated with correct information and photo.
+- **Wishlist**
     - As a user, I want to be able to search for trips with a flexible total length in addition to a variable numbers of days in each city, so that I can find better deals when I have flexibility in my plans and don’t care exactly how long my trip is.
-    - This should include:
-        * An option to choose earliest and latest trip start dates
-        * An option to set a minimum and maximum total trip length
-        * Options to set the minimum and maximum number of days in each city
+- **Trip Packing List**
+    - As a user, I want to be able to search for trips with a flexible total length in addition to a variable numbers of days in each city, so that I can find better deals when I have flexibility in my plans and don’t care exactly how long my trip is.
+- **Cost Per Wear Tracking**
+    - As a user, I want to be able to search for trips with a flexible total length in addition to a variable numbers of days in each city, so that I can find better deals when I have flexibility in my plans and don’t care exactly how long my trip is.
+- **Wishlist**
+    - As a user, I want to be able to search for trips with a flexible total length in addition to a variable numbers of days in each city, so that I can find better deals when I have flexibility in my plans and don’t care exactly how long my trip is.
 
 ## Wire Frames
 ### Application Web Pages

@@ -77,8 +77,8 @@ The purpose of the application is to make it easy for users to decide what to we
 | HTTP Method | Path            | Purpose                   |
 |-------------|-----------------|---------------------------|
 | POST        | /auth/signup    | Create account (Sign-up)  |
-| POST        | /auth/signin    | Log into account (Sign-in)|
-| POST        | /auth/signout   | Log out of account        |
+| POST        | /auth/signin/:userId    | Log into account (Sign-in)|
+| POST        | /auth/signout/:userId    | Log out of account        |
 
 #### User Account
 | HTTP Method | Path                | Purpose                       |
@@ -98,22 +98,17 @@ The purpose of the application is to make it easy for users to decide what to we
 #### Outfit Recommendations
 | HTTP Method | Path                     | Purpose                                                   |
 |-------------|--------------------------|-----------------------------------------------------------|
-| GET         | /outfits/recommendations | View today's recommended outfit(s) based on weather       |
-| POST        | /outfits/recommendations/cycle-item | Cycle individual item recommendation          |
-| POST        | /outfits/recommendations/cycle-outfit | Cycle entire outfit recommendation          |
-| POST        | /outfits/recommendations/dislike | Permanently dislike an outfit recommendation     |
+| GET         | /outfit/recommendations | View today's recommended outfit(s) based on weather       |
+| POST        | /outfit/recommendations/cycle-item | Cycle individual item recommendation          |
+| POST        | /outfit/recommendations/cycle-outfit | Cycle entire outfit recommendation          |
+| POST        | /outfit/recommendations/dislike | Permanently dislike an outfit recommendation     |
 
 #### Rated Outfits
 | HTTP Method | Path                 | Purpose                               |
 |-------------|----------------------|---------------------------------------|
-| GET         | /outfits/rated       | View all rated outfits                |
-| PUT         | /outfits/rated/:outfitId | Edit a rated outfit               |
-| DELETE      | /outfits/rated/:outfitId | Delete a rated outfit             |
-
-#### Weather
-| HTTP Method | Path                 | Purpose                               |
-|-------------|----------------------|---------------------------------------|
-| GET         | /weather             | Get current weather information       |
+| GET         | /outfit/rated       | View all rated outfits                |
+| PUT         | /outfit/rated/:outfitId | Edit a rated outfit               |
+| DELETE      | /outfit/rated/:outfitId | Delete a rated outfit             |
 
 ## Timeline
 

@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { UserContext } from "./contexts/UserContext.jsx";
 import { Routes, Route } from "react-router";
 import "./App.css";
+import AddItem from "./components/AddItem/AddItem.jsx";
 
 function App() {
   const { user } = useContext(UserContext);

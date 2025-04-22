@@ -65,7 +65,7 @@ The purpose of the application is to make it easy for users to decide what to we
 ![Wireframes](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/Wireframes.png?raw=true)
 
 ## Component Hierarchy Diagram
-![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
+![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/cloud-closet-front-end/blob/main/Component%20Hierarchy%202.png?raw=true)
 
 ## Entity Relationship Diagram (ERD)
 

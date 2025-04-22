@@ -71,10 +71,51 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ![ERD](https://github.com/Matt-Gallery/cloud-closet-front-end/blob/main/ERD%202.png?raw=true)
 
-
 ## Routing Table
 
-![Routing Table](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/Routing%20Table%202.png?raw=true)
+#### Authentication
+| HTTP Method | Path            | Purpose                   |
+|-------------|-----------------|---------------------------|
+| POST        | /auth/signup    | Create account (Sign-up)  |
+| POST        | /auth/signin    | Log into account (Sign-in)|
+| POST        | /auth/signout   | Log out of account        |
+
+#### User Account
+| HTTP Method | Path                | Purpose                       |
+|-------------|---------------------|-------------------------------|
+| GET         | /account            | View account details          |
+| PUT         | /account            | Edit/update account details   |
+| DELETE      | /account            | Delete account                |
+
+#### Wardrobe Items
+| HTTP Method | Path                  | Purpose                             |
+|-------------|-----------------------|-------------------------------------|
+| GET         | /closet               | View all wardrobe items             |
+| POST        | /closet               | Add new wardrobe item               |
+| PUT         | /closet/:itemId       | Edit/update a specific wardrobe item|
+| DELETE      | /closet/:itemId       | Delete a specific wardrobe item     |
+
+#### Outfit Recommendations
+| HTTP Method | Path                     | Purpose                                                   |
+|-------------|--------------------------|-----------------------------------------------------------|
+| GET         | /outfits/recommendations | View today's recommended outfit(s) based on weather       |
+| POST        | /outfits/recommendations/cycle-item | Cycle individual item recommendation          |
+| POST        | /outfits/recommendations/cycle-outfit | Cycle entire outfit recommendation          |
+| POST        | /outfits/recommendations/dislike | Permanently dislike an outfit recommendation     |
+
+#### Rated Outfits
+| HTTP Method | Path                 | Purpose                               |
+|-------------|----------------------|---------------------------------------|
+| GET         | /outfits/rated       | View all rated outfits                |
+| PUT         | /outfits/rated/:outfitId | Edit a rated outfit               |
+| DELETE      | /outfits/rated/:outfitId | Delete a rated outfit             |
+
+#### Weather
+| HTTP Method | Path                 | Purpose                               |
+|-------------|----------------------|---------------------------------------|
+| GET         | /weather             | Get current weather information       |
+
+
 
 
 ## Pseudocode

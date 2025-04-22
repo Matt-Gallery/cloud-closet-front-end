@@ -1,5 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // ✅ Use named import
+
+
+//const decoded = jwtDecode(token);
 
 const UserContext = createContext(null);
 

@@ -7,8 +7,8 @@ import Landing from "./components/Landing/Landing.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Show from "./components/Show/Show.jsx";
 import AddItem from "./components/AddItem/AddItem.jsx";
-import WeatherSearch from "./components/Weather/WeatherSearch.jsx";
-import * as weatherService from "./services/weather/weatherService.js";
+import WeatherSearch from "./components/Weather/weatherSearch.jsx";
+import * as weatherService from "./components/Weather/weatherService.jsx";
 import { UserContext } from "./contexts/UserContext.jsx";
 import "./App.css";
 

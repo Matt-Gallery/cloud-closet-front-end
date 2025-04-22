@@ -69,8 +69,7 @@ The purpose of the application is to make it easy for users to decide what to we
 
 ## Entity Relationship Diagram (ERD)
 
-![ERD](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/ERD.png?raw=true)
-
+![ERD](https://github.com/Matt-Gallery/cloud-closet-front-end/blob/main/ERD%202.png?raw=true)
 
 
 ## Routing Table

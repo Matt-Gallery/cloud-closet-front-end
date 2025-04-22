@@ -115,44 +115,6 @@ The purpose of the application is to make it easy for users to decide what to we
 |-------------|----------------------|---------------------------------------|
 | GET         | /weather             | Get current weather information       |
 
-
-
-
-## Pseudocode
-```js
-/*-------------------------------- Import --------------------------------*/
-// express
-// react
-// react-router
-// mongoose
-// dotenv
-// method-override
-// morgan
-// express-session
-// bcrypt
-// CORS
-// db
-/*------------------------------- Pages -------------------------------*/
-// Landing/Login/Signup
-// Recommendations
-// Closet
-/*-------------------------------- Routes --------------------------------*/
-// POST Sign in
-// POST Sign up
-// GET account
-// PUT Edit Account
-// DELETE Account
-// GET weather
-// GET Recommended outfit
-// GET closet
-// GET saved outsfits
-// PUT edit saved outfits
-// POST Add new clothing item
-// PUT Edit clothing
-// DELETE clothing
-// GET Sign out
-```
-
 ## Timeline
 
 | Day        |   | Task                               | Blockers | Notes/ Thoughts |

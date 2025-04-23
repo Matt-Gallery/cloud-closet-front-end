@@ -1,3 +1,4 @@
+
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -74,5 +75,6 @@ const App = () => {
     </>
   );
 };
+
 
 export default App;

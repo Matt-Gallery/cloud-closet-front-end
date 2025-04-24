@@ -16,9 +16,9 @@ const AddItem = ({ onAdd }) => {
     const newItem = ["Shirt", "Pants", "Sweater", "Skirt", "Dress", "Shoes", "Blazer"];
 
     const [formData, setFormData] = useState({
-        title: "",
+        name: "",
         category: "Shirt",
-        subcategory: categoryOptions["Shirt"][0],
+        subCategory: categoryOptions["Shirt"][0],
         color: "",
     });
    
@@ -42,9 +42,9 @@ const handleSubmit = (e) => {
     console.log("New Item Added", formData);
     onAdd(formData);
     setFormData({
-        title: "",
+        name: "",
         category: "Shirt",
-        subcategory: categoryOptions["Shirt"][0],
+        subCategory: categoryOptions["Shirt"][0],
         color: "",  
     });
 };
@@ -58,8 +58,8 @@ return (
             Custom Title: 
             <input
             type="text"
-            name="title"
-            value={formData.title}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             placeholder="e.g., Yellow Button-Up from Gap"
             required
@@ -87,8 +87,8 @@ return (
         <label>
             Subcategory: 
             <select
-            name="subcategory"
-            value={formData.subcategory}
+            name="subCategory"
+            value={formData.subCategory}
             onChange={handleChange}
             >
              {categoryOptions[formData.category].map((sub, idx) => (

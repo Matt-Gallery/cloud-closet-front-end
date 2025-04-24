@@ -10,6 +10,7 @@ import Show from "./components/Show/Show.jsx";
 import AddItem from "./components/AddItem/AddItem.jsx";
 import WeatherSearch from "./components/Weather/weatherSearch.jsx";
 import * as weatherService from "./components/Weather/weatherService.jsx";
+import ClosetForm from "./components/ClosetForm/ClosetForm.jsx";
 import { UserContext } from "./contexts/UserContext.jsx";
 import "./App.css";
 
@@ -44,7 +45,7 @@ const App = () => {
       temperature: data.current.temp_f,
       condition: data.current.condition.text,
     };
-    setWeather(newWeatherState);
+    setWeather(newWeather);
   };
 
   return (
@@ -56,10 +57,11 @@ const App = () => {
           path="/"
           element={user ? <Dashboard weather={weather} /> : <Landing />}
         />
-        <Route path="/sign-up" element={<SignUpForm />} />
-        <Route path="/sign-in" element={<SignInForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/signin" element={<SignInForm />} />
         <Route path="/users/:id" element={<Show />} />
         <Route path="/add-item" element={<AddItem />} />
+        <Route path="/closet" element={<ClosetForm />} />
       </Routes>
 
       <main>

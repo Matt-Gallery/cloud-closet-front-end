@@ -23,7 +23,7 @@ export default function Signup() {
         setUser(jwtDecode(data.token));
         navigate('/closet');
       } else {
-        setError(data.error || 'Signup failed.');
+        setError(data.error || 'Sign-up failed.');
       }
     } catch (err) {
       setError('Something went wrong.');

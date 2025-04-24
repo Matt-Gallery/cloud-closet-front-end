@@ -1,8 +1,8 @@
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/users`;
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/auth`;
 
 export const signUp = async (formData) => {
   try {
-    const res = await fetch(`${BASE_URL}/sign-up`, {
+    const res = await fetch(`${BASE_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -29,26 +29,29 @@ export const signUp = async (formData) => {
 
 export const signIn = async (formData) => {
   try {
-    const res = await fetch(`${BASE_URL}/sign-in`, {
+    const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
-    const data = await res.json();
-
-    if (data.err) {
-      throw new Error(data.err);
+    if (!res.ok) {
+      throw new Error(`Sign-in failed: ${res.status}`);
     }
 
+    const text = await res.text();
+    if (!text) throw new Error("Empty response from server");
+
+    const data = JSON.parse(text);
+
     if (!data.token) {
-      throw new Error("Invalid response from server");
+      throw new Error("Missing token in response");
     }
 
     localStorage.setItem("token", data.token);
     return JSON.parse(atob(data.token.split(".")[1])).payload;
   } catch (err) {
-    console.log(err);
-    throw new Error(err);
+    console.error("❌ Sign-In Error:", err);
+    throw err;
   }
 };

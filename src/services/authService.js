@@ -1,8 +1,8 @@
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/users`;
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/auth`;
 
 export const signUp = async (formData) => {
   try {
-    const res = await fetch(`${BASE_URL}/sign-up`, {
+    const res = await fetch(`${BASE_URL}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -21,15 +21,15 @@ export const signUp = async (formData) => {
 
     localStorage.setItem("token", data.token);
     return JSON.parse(atob(data.token.split(".")[1])).payload;
-  } catch (error) {
+  } catch (err) {
     console.log(err);
-    throw new Error(err);
+    //throw new Error(err);
   }
 };
 
 export const signIn = async (formData) => {
   try {
-    const res = await fetch(`${BASE_URL}/sign-in`, {
+    const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -49,6 +49,6 @@ export const signIn = async (formData) => {
     return JSON.parse(atob(data.token.split(".")[1])).payload;
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    //throw new Error(err);
   }
 };

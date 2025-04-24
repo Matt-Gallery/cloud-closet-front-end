@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
@@ -24,7 +25,7 @@ const App = () => {
         async (position) => {
           const coords = `${position.coords.latitude},${position.coords.longitude}`;
           const data = await weatherService.display(coords);
-          updateWeather(data);
+          handleWeatherUpdate(data);
         },
         (error) => console.error("Geolocation error:", error)
       );
@@ -34,17 +35,17 @@ const App = () => {
   // this step lets the user override geolocation and enter any city they want
   const fetchData = async (city) => {
     const data = await weatherService.display(city);
-    updateWeather(data);
+    handleWeatherUpdate(data);
   };
 
-  const updateWeather = (data) => {
+  const handleWeatherUpdate = (data) => {
     if (!data || !data.current || !data.location) return;
     const newWeather = {
       location: data.location.name,
       temperature: data.current.temp_f,
       condition: data.current.condition.text,
     };
-    setWeather(newWeatherState);
+    setWeather(newWeather);
   };
 
   return (
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignInForm />} />
         <Route path="/users/:id" element={<Show />} />
         <Route path="/add-item" element={<AddItem />} />
+        <Route path="/signup" element={<Navigate to="/sign-up" replace />} />
       </Routes>
 
       <main>

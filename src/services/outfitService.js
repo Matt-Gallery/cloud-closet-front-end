@@ -2,23 +2,48 @@
  * Service for interacting with outfit recommendation endpoints
  */
 
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api`;
+// Use a default URL if the environment variable is undefined
+const BASE_URL = import.meta.env.VITE_BACK_END_SERVER_URL 
+  ? `${import.meta.env.VITE_BACK_END_SERVER_URL}/api` 
+  : 'http://localhost:3001/api'; // replace with your actual backend URL
 
 /**
  * Get weather-based outfit recommendations
  * @param {Object} weatherData - The current weather data 
+ * @param {string} userId - The user's ID
  * @returns {Promise<Object>} - The outfit recommendations
  */
-export const getWeatherBasedRecommendations = async (weatherData) => {
+export const getWeatherBasedRecommendations = async (weatherData, userId) => {
   try {
-    const res = await fetch(`${BASE_URL}/recommendations`, {
-      method: "POST",
+    if (!userId) {
+      throw new Error("User ID is required to fetch recommendations");
+    }
+    
+    console.log("Using API URL:", BASE_URL);
+    console.log("Weather data being sent:", weatherData);
+    console.log("User ID:", userId);
+    
+    // Build query parameters from weather data
+    const queryParams = new URLSearchParams();
+    for (const [key, value] of Object.entries(weatherData)) {
+      queryParams.append(key, value);
+    }
+    
+    const url = `${BASE_URL}/recommendations/${userId}?${queryParams.toString()}`;
+    console.log("Request URL:", url);
+    
+    const res = await fetch(url, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ weather: weatherData }),
+      }
     });
+
+    // Check if response is ok before parsing JSON
+    if (!res.ok) {
+      throw new Error(`Server responded with ${res.status}: ${res.statusText}`);
+    }
 
     const data = await res.json();
 

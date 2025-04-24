@@ -56,6 +56,5 @@ export const signIn = async (formData) => {
     return JSON.parse(atob(data.token.split(".")[1])).payload;
   } catch (err) {
     console.error("❌ Sign-In Error:", err);
-    
   }
 };

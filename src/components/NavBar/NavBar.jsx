@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
-import { UserContext } from "../../contexts/UserContext.jsx";
+import { UserContext } from "../../contexts/UserContext";
+import { closetForm } from "../ClosetForm/ClosetForm";
+
 
 function NavBar() {
-  const { user, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { user, setUser } = useUser();
+  const navigate          = useNavigate();
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -27,13 +29,13 @@ function NavBar() {
       ) : (
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/OutfitRecommendation">Home/Recommendations</Link>
           </li>
           <li>
-            <Link to="/sign-up">Sign Up</Link>
+            <Link to="/closetForm">My Closet</Link>
           </li>
           <li>
-            <Link to="/sign-in">Sign In</Link>
+            <Link to="/">My Profile</Link>
           </li>
         </ul>
       )}

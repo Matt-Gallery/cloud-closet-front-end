@@ -23,7 +23,7 @@ export const signUp = async (formData) => {
     return JSON.parse(atob(data.token.split(".")[1])).payload;
   } catch (err) {
     console.log(err);
-    //throw new Error(err);
+    throw new Error(err);
   }
 };
 
@@ -36,9 +36,9 @@ export const signIn = async (formData) => {
     });
 
     if (!res.ok) {
-      throw new Error(`Sign-in failed: ${res.status}`);
+      throw new Error(`Signin failed: ${res.status}`);
     }
-
+    
     const text = await res.text();
     if (!text) throw new Error("Empty response from server");
 

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
-import { closetForm } from "../ClosetForm/ClosetForm";
+//import { closetForm } from "../ClosetForm/ClosetForm";
 
 
 function NavBar() {

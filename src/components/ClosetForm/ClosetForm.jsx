@@ -3,16 +3,24 @@ import AddItem from "../AddItem/AddItem";
 import { UserContext } from "../../contexts/UserContext";
 
 const ClosetForm = () => {
-    const { user } = useContext(UserContext);
+    //const { user } = useContext(UserContext);
+    const user = {
+        _id: "6627fa6bc2a4a1d2f86f2a8f", // ✅ must look like a real Mongo ObjectId
+        email: "test@example.com"
+      };
     const [closetItems, setClosetItems] = useState([]);
 
 
     const addItemToCloset = async (newItem) => {
         try {
             const itemWithUser = {
-                ...newItem,
+            name: newItem.name,                
+            category: newItem.category,
+            subCategory: newItem.subcategory,   
+            color: newItem.color,
             userId: user._id, 
             };
+            console.log("sending to backend", itemWithUser);
 
             const res = await fetch("http://localhost:3001/api/items", {
         method: "POST",

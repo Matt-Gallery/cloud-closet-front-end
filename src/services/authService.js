@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/auth`;
-=======
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/auth`;
->>>>>>> ad1884a942d98c31e59242425d528f0b9fb1c0ec
 
 export const signUp = async (formData) => {
   try {

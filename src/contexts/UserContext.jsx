@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode'; // ✅ Use named import
 
 //const decoded = jwtDecode(token);
 
-const UserContext = createContext(null);
+export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);

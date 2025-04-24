@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
+import { closetForm } from "../ClosetForm/ClosetForm";
 
 function NavBar() {
   const { user, setUser } = useContext(UserContext);
@@ -27,13 +28,13 @@ function NavBar() {
       ) : (
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/OutfitRecommendation">Home/Recommendations</Link>
           </li>
           <li>
-            <Link to="/signup">Sign Up</Link>
+            <Link to="/closetForm">My Closet</Link>
           </li>
           <li>
-            <Link to="/signin">Sign In</Link>
+            <Link to="/">My Profile</Link>
           </li>
         </ul>
       )}

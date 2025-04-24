@@ -8,13 +8,6 @@ const ClosetForm = () => {
 
 
     const addItemToCloset = async (newItem) => {
-        //const fakeUserId = "6627fa6bc2a4a1d2f86f2a8f"; // 👈 Use a valid ObjectId from your DB
-
-        //const itemWithUser = {
-        //  ...newItem,
-        //  userId: fakeUserId, // ✅ temporary override
-       //};
-
         try {
             const itemWithUser = {
                 ...newItem,

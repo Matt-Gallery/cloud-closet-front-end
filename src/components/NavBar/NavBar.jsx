@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
-import { UserContext } from "../../contexts/UserContext";
+import { useUser } from "../../contexts/UserContext.jsx";
 //import { closetForm } from "../ClosetForm/ClosetForm";
 
 
 function NavBar() {
-  const { user, setUser } = useUser();
+  const { user, setUser } =  useUser();
   const navigate          = useNavigate();
 
   const handleSignOut = () => {

@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 import { Navigate } from "react-router-dom";
 
-=======
->>>>>>> ad1884a942d98c31e59242425d528f0b9fb1c0ec
+
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";

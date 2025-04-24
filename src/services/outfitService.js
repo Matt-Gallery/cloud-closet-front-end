@@ -59,6 +59,62 @@ export const getWeatherBasedRecommendations = async (weatherData, userId) => {
 };
 
 /**
+ * Save an outfit rating to the backend
+ * @param {string} userId - The user's ID
+ * @param {Object} outfitData - Object containing item IDs and rating
+ * @param {string} [outfitData.topId] - ID of the top item
+ * @param {string} [outfitData.bottomId] - ID of the bottom item
+ * @param {string} [outfitData.shoesId] - ID of the shoes item
+ * @param {string} [outfitData.accessoryId] - ID of the accessory item
+ * @param {number} outfitData.rating - Rating value (1-5)
+ * @returns {Promise<Object>} - The saved outfit rating
+ */
+export const saveOutfitRating = async (userId, outfitData) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required to save outfit rating");
+    }
+    
+    if (!outfitData.rating) {
+      throw new Error("Rating is required");
+    }
+    
+    // Prepare the data to match the backend schema
+    const payload = {
+      userId,
+      ...outfitData
+    };
+    
+    console.log("Saving outfit rating:", payload);
+    
+    const res = await fetch(`${BASE_URL}/outfits/rating`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    // Check if response is ok before parsing JSON
+    if (!res.ok) {
+      throw new Error(`Server responded with ${res.status}: ${res.statusText}`);
+    }
+
+    const data = await res.json();
+
+    if (data.err) {
+      throw new Error(data.err);
+    }
+
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message || "Failed to save outfit rating");
+  }
+};
+
+/**
  * Get saved weather recommendations for a specific user
  * @param {string} userId - The user's ID
  * @returns {Promise<Object>} - The user's saved recommendations
@@ -92,5 +148,6 @@ export const getUserRecommendations = async (userId) => {
 
 export default {
   getWeatherBasedRecommendations,
-  getUserRecommendations
+  getUserRecommendations,
+  saveOutfitRating
 };

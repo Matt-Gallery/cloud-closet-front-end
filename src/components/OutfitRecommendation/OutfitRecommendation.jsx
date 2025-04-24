@@ -1,10 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext.jsx";
-import { getWeatherBasedRecommendations } from "../../services/outfitService.js";
+import { getWeatherBasedRecommendations, saveOutfitRating } from "../../services/outfitService.js";
 import { generateOutfitRecommendation } from "../../services/recommendationService.js";
+import getWeatherIcon from "../../utils/weatherIcons.js";
+import getClothingIcon from "../../utils/clothingIcons.js";
+import * as weatherService from "../Weather/weatherService.jsx";
 import "./OutfitRecommendation.css";
 
-function OutfitRecommendation({ weather }) {
+function OutfitRecommendation() {
   const { user } = useContext(UserContext);
   const [recommendationsData, setRecommendationsData] = useState(null);
   const [outfit, setOutfit] = useState(null);
@@ -12,6 +15,11 @@ function OutfitRecommendation({ weather }) {
   const [error, setError] = useState(null);
   const [rating, setRating] = useState(0);
   const [hoveredStar, setHoveredStar] = useState(0);
+  const [ratingSuccess, setRatingSuccess] = useState(false);
+  const [ratingError, setRatingError] = useState(null);
+  const [weather, setWeather] = useState(null);
+  const [city, setCity] = useState("");
+  const [weatherLoading, setWeatherLoading] = useState(false);
   
   // For cycling through different options for each item type
   const [availableOptions, setAvailableOptions] = useState({
@@ -28,6 +36,64 @@ function OutfitRecommendation({ weather }) {
     jacketIndex: 0
   });
 
+  // Fetch weather based on geolocation when component mounts
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      setWeatherLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const coords = `${position.coords.latitude},${position.coords.longitude}`;
+          try {
+            const data = await weatherService.display(coords);
+            updateWeather(data);
+          } catch (err) {
+            console.error("Error fetching weather:", err);
+          } finally {
+            setWeatherLoading(false);
+          }
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          setWeatherLoading(false);
+        }
+      );
+    }
+  }, []);
+
+  // Update weather data
+  const updateWeather = (data) => {
+    if (!data || !data.current || !data.location) return;
+    
+    const newWeather = {
+      location: data.location.name,
+      temperature: data.current.temp_f,
+      condition: data.current.condition.text,
+      precipitation: data.current.precip_mm,
+      humidity: data.current.humidity,
+      windSpeed: data.current.wind_mph,
+      uvIndex: data.current.uv
+    };
+    
+    setWeather(newWeather);
+  };
+
+  // Handle city search
+  const handleCitySearch = async (e) => {
+    e.preventDefault();
+    if (!city.trim()) return;
+    
+    setWeatherLoading(true);
+    try {
+      const data = await weatherService.display(city);
+      updateWeather(data);
+    } catch (err) {
+      console.error("Error fetching weather for city:", err);
+    } finally {
+      setWeatherLoading(false);
+      setCity("");
+    }
+  };
+
   // Fetch initial recommendations data
   useEffect(() => {
     if (weather) {
@@ -43,7 +109,15 @@ function OutfitRecommendation({ weather }) {
     }
   }, [recommendationsData]);
 
-  // Updated to use the actual API call instead of mockData
+  // Reset rating when outfit changes
+  useEffect(() => {
+    if (outfit) {
+      setRating(0);
+      setRatingSuccess(false);
+      setRatingError(null);
+    }
+  }, [outfit]);
+
   const fetchRecommendations = async () => {
     try {
       setLoading(true);
@@ -59,10 +133,10 @@ function OutfitRecommendation({ weather }) {
         humidity: weather.humidity || 65, // Default if not available
         wind: weather.windSpeed || 4.5,    // Default if not available
         precip_mm: weather.precipitation || 0.5, // Default if not available
-        uv: weather.uv || 3.2              // Default if not available
+        uv: weather.uvIndex || 3.2              // Default if not available
       };
       
-      // Make the actual API call
+      // Make the API call
       const data = await getWeatherBasedRecommendations(weatherData, testUserId);
       console.log("API response:", data);
       
@@ -207,13 +281,80 @@ function OutfitRecommendation({ weather }) {
     }
   };
 
+  // Helper functions to find specific top types from outfit.topItems
+  const findShirtItem = () => {
+    if (!outfit || !outfit.topItems || outfit.topItems.length === 0) return null;
+    return outfit.topItems.find(item => item.category === "Shirt");
+  };
+  
+  const findSweaterItem = () => {
+    if (!outfit || !outfit.topItems || outfit.topItems.length === 0) return null;
+    return outfit.topItems.find(item => item.category === "Sweater");
+  };
+  
+  const hasBothShirtAndSweater = () => {
+    return findShirtItem() && findSweaterItem();
+  };
+
   const handleStarHover = (starValue) => {
     setHoveredStar(starValue);
   };
 
-  const handleStarClick = (starValue) => {
-    setRating(starValue);
-    // Here you could add functionality to save the rating to your backend
+  const handleStarClick = async (starValue) => {
+    try {
+      setRating(starValue);
+      setRatingSuccess(false);
+      setRatingError(null);
+      
+      if (!user) {
+        setRatingError("You must be logged in to rate outfits");
+        return;
+      }
+      
+      if (!outfit) {
+        setRatingError("No outfit to rate");
+        return;
+      }
+      
+      // Get the item IDs from the current outfit
+      const outfitData = {
+        rating: starValue
+      };
+      
+      // Get top ID (use shirt if available, otherwise first top)
+      const shirtItem = findShirtItem();
+      const topItem = shirtItem || (outfit.topItems && outfit.topItems.length > 0 ? outfit.topItems[0] : null);
+      if (topItem) {
+        outfitData.topId = topItem.item._id;
+      }
+      
+      // Get bottom ID
+      if (outfit.bottomItem) {
+        outfitData.bottomId = outfit.bottomItem.item._id;
+      }
+      
+      // Get shoes ID
+      if (outfit.shoes) {
+        outfitData.shoesId = outfit.shoes._id;
+      }
+      
+      // Get accessory ID (not implemented yet)
+      
+      // Use test userId for now (should be replaced with actual user ID)
+      const userId = user._id || "65fb942d45c5b0b3e21cb6a0";
+      
+      console.log("Sending outfit rating:", outfitData);
+      
+      // Save the rating
+      const response = await saveOutfitRating(userId, outfitData);
+      
+      console.log("Rating saved:", response);
+      setRatingSuccess(true);
+      
+    } catch (err) {
+      console.error("Error saving rating:", err);
+      setRatingError(err.message || "Failed to save rating");
+    }
   };
 
   const renderStarRating = () => {
@@ -234,17 +375,13 @@ function OutfitRecommendation({ weather }) {
     return stars;
   };
 
-  if (loading) {
-    return <div className="loading">Loading outfit recommendations...</div>;
+  if (loading && !weather) {
+    return <div className="loading">Loading weather data...</div>;
   }
 
-  if (error) {
-    return <div className="error">Error: {error}</div>;
-  }
-
-  if (!outfit) {
-    return <div>No outfit recommendations available</div>;
-  }
+  const shirtItem = findShirtItem();
+  const sweaterItem = findSweaterItem();
+  const bothTopLayers = hasBothShirtAndSweater();
 
   return (
     <div className="outfit-recommendation-container">
@@ -259,72 +396,173 @@ function OutfitRecommendation({ weather }) {
               <div className="location">{weather.location}</div>
               <div className="weather-details">
                 <div>{weather.temperature}°F</div>
-                <div>{weather.condition}</div>
+                <div className="weather-condition">
+                  <span className="weather-icon">{getWeatherIcon(weather.condition)}</span>
+                  <span className="weather-text">{weather.condition}</span>
+                </div>
+                <div className="weather-extended">
+                  <div>Precipitation: {weather.precipitation} mm</div>
+                  <div>Humidity: {weather.humidity}%</div>
+                  <div>Wind: {weather.windSpeed} mph</div>
+                  <div>UV Index: {weather.uvIndex}</div>
+                </div>
               </div>
+              
+              <form className="location-form" onSubmit={handleCitySearch}>
+                <input
+                  type="text"
+                  placeholder="Change location..."
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  disabled={weatherLoading}
+                />
+                <button 
+                  type="submit" 
+                  className="location-btn"
+                  disabled={weatherLoading || !city.trim()}
+                >
+                  {weatherLoading ? "Loading..." : "Update"}
+                </button>
+              </form>
             </div>
           )}
           
-          <button className="regenerate-btn" onClick={fetchRecommendations}>
-            Re-generate
+          <button 
+            className="regenerate-btn" 
+            onClick={fetchRecommendations}
+            disabled={loading || !weather}
+          >
+            {loading ? "Generating..." : "Re-generate"}
           </button>
         </div>
         
-        <div className="outfit-section">
-          <div className="outfit-item">
-            {outfit.topItems && outfit.topItems.length > 0 && (
-              <div className="top-item">
-                <img 
-                  src={outfit.topItems[0].item.imageUrl} 
-                  alt={outfit.topItems[0].item.name} 
-                />
-                <button className="cycle-btn" onClick={cycleTop}>→</button>
-              </div>
-            )}
+        {!weather ? (
+          <div className="weather-loading">Loading weather data...</div>
+        ) : loading ? (
+          <div className="loading">Generating outfit recommendations...</div>
+        ) : error ? (
+          <div className="error-container">
+            <div className="error">Error: {error}</div>
+            <button 
+              className="regenerate-btn" 
+              onClick={fetchRecommendations}
+            >
+              Try Again
+            </button>
           </div>
-          
-          <div className="outfit-item">
-            {outfit.bottomItem && (
-              <div className="bottom-item">
-                <img 
-                  src={outfit.bottomItem.item.imageUrl} 
-                  alt={outfit.bottomItem.item.name} 
-                />
-                <button className="cycle-btn" onClick={cycleBottom}>→</button>
+        ) : !outfit ? (
+          <div>No outfit recommendations available</div>
+        ) : (
+          <>
+            <div className="outfit-layout">
+              {/* Outerwear (left of top) */}
+              {outfit.jacket && (
+                <div className="jacket-container">
+                  <div className="shape-container">
+                    <div className="clothing-icon">
+                      {getClothingIcon('Jacket', outfit.jacket.subCategory)}
+                    </div>
+                    <div className="item-label">
+                      <p className="item-name">{outfit.jacket.name}</p>
+                      <p className="item-category">{outfit.jacket.subCategory}</p>
+                    </div>
+                  </div>
+                  <button className="cycle-btn small" onClick={cycleJacket}>→</button>
+                </div>
+              )}
+
+              {/* Vertical stack (top, bottom, shoes) */}
+              <div className="vertical-items">
+                {/* Top (show either the shirt or the first top if no layers) */}
+                {(bothTopLayers ? shirtItem : outfit.topItems[0]) && (
+                  <div className="item-row">
+                    <div className="shape-container">
+                      <div className="clothing-icon">
+                        {getClothingIcon(
+                          bothTopLayers ? shirtItem.category : outfit.topItems[0].category,
+                          bothTopLayers ? shirtItem.item.subCategory : outfit.topItems[0].item.subCategory
+                        )}
+                      </div>
+                      <div className="item-label">
+                        <p className="item-name">
+                          {bothTopLayers 
+                            ? shirtItem.item.name 
+                            : outfit.topItems[0].item.name}
+                        </p>
+                        <p className="item-category">
+                          {bothTopLayers 
+                            ? shirtItem.item.subCategory 
+                            : outfit.topItems[0].item.subCategory}
+                        </p>
+                      </div>
+                    </div>
+                    <button className="cycle-btn small" onClick={cycleTop}>→</button>
+                  </div>
+                )}
+                
+                {/* Bottom */}
+                {outfit.bottomItem && (
+                  <div className="item-row">
+                    <div className="shape-container">
+                      <div className="clothing-icon">
+                        {getClothingIcon(
+                          outfit.bottomItem.category,
+                          outfit.bottomItem.item.subCategory
+                        )}
+                      </div>
+                      <div className="item-label">
+                        <p className="item-name">{outfit.bottomItem.item.name}</p>
+                        <p className="item-category">{outfit.bottomItem.item.category}</p>
+                      </div>
+                    </div>
+                    <button className="cycle-btn small" onClick={cycleBottom}>→</button>
+                  </div>
+                )}
+                
+                {/* Shoes */}
+                {outfit.shoes && (
+                  <div className="item-row">
+                    <div className="shape-container">
+                      <div className="clothing-icon">
+                        {getClothingIcon('Shoes', outfit.shoes.subCategory)}
+                      </div>
+                      <div className="item-label">
+                        <p className="item-name">{outfit.shoes.name}</p>
+                        <p className="item-category">{outfit.shoes.subCategory}</p>
+                      </div>
+                    </div>
+                    <button className="cycle-btn small" onClick={cycleShoes}>→</button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          
-          <div className="outfit-item">
-            {outfit.shoes && (
-              <div className="shoes-item">
-                <img 
-                  src={outfit.shoes.imageUrl} 
-                  alt={outfit.shoes.name} 
-                />
-                <button className="cycle-btn" onClick={cycleShoes}>→</button>
-              </div>
-            )}
-          </div>
-          
-          {outfit.jacket && (
-            <div className="outfit-item">
-              <div className="jacket-item">
-                <img 
-                  src={outfit.jacket.imageUrl} 
-                  alt={outfit.jacket.name} 
-                />
-                <button className="cycle-btn" onClick={cycleJacket}>→</button>
-              </div>
+              
+              {/* Sweater to the right, only if both shirt and sweater are present */}
+              {bothTopLayers && sweaterItem && (
+                <div className="sweater-container">
+                  <div className="shape-container">
+                    <div className="clothing-icon">
+                      {getClothingIcon('Sweater', sweaterItem.item.subCategory)}
+                    </div>
+                    <div className="item-label">
+                      <p className="item-name">{sweaterItem.item.name}</p>
+                      <p className="item-category">{sweaterItem.item.subCategory}</p>
+                    </div>
+                  </div>
+                  <button className="cycle-btn small" onClick={cycleTop}>→</button>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        
-        <div className="rating-section">
-          <div className="rating-label">Rate this</div>
-          <div className="star-rating">
-            {renderStarRating()}
-          </div>
-        </div>
+            
+            <div className="rating-section">
+              <div className="rating-label">Rate this</div>
+              <div className="star-rating">
+                {renderStarRating()}
+              </div>
+              {ratingSuccess && <div className="rating-success">Rating saved!</div>}
+              {ratingError && <div className="rating-error">{ratingError}</div>}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

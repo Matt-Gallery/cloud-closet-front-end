@@ -1,7 +1,5 @@
 
 import { Navigate } from "react-router-dom";
-
-
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -11,6 +9,7 @@ import Landing from "./components/Landing/Landing.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import AddItem from "./components/AddItem/AddItem.jsx";
 import OutfitRecommendation from "./components/OutfitRecommendation/OutfitRecommendation.jsx";
+
 import WeatherSearch from "./components/Weather/weatherSearch.jsx";
 import * as weatherService from "./components/Weather/weatherService.jsx";
 import ClosetForm from "./components/ClosetForm/ClosetForm.jsx";
@@ -62,29 +61,15 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={user ? <Dashboard weather={weather} /> : <Landing />}
+          element={user ? <Dashboard /> : <Landing />}
         />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />
         <Route path="/add-item" element={<AddItem />} />
+        <Route path="/outfit/recommendations" element={<OutfitRecommendation />} />
+        <Route path="/closet" element={<ClosetForm />} />
         <Route path="/closetForm" element={<ClosetForm />} />
-        <Route path="/outfitRecommendation" element={<OutfitRecommendation />} />
       </Routes>
-
-      <main>
-        <WeatherSearch fetchData={fetchData} />
-        {weather && (
-          <section>
-            <h3>Weather in {weather.location}</h3>
-            <p>{weather.temperature}°F</p>
-            <p>{weather.condition}</p>
-            <p>Precipitation: {weather.precipitation} mm</p>
-            <p>Humidity: {weather.humidity}%</p>
-            <p>Wind: {weather.windSpeed} mph</p>
-            <p>UV Index: {weather.uvIndex}</p>
-          </section>
-        )}
-      </main>
     </>
   );
 };

@@ -32,9 +32,11 @@ function NavBar() {
           <li>
             <Link to="/OutfitRecommendation">Home/Recommendations</Link>
           </li>
+          <li><Link to="/Signin">Sign In</Link></li> 
           <li>
             <Link to="/closetForm">My Closet</Link>
           </li>
+          <li><Link to="/Signup">Sign Up</Link></li> 
           <li>
             <Link to="/">My Profile</Link>
           </li>

@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 
 import { Navigate } from "react-router-dom";
-=======
-
-import { Navigate } from "react-router-dom";
-
->>>>>>> 69a39af (WIP)
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -72,9 +66,12 @@ const App = () => {
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 69a39af (WIP)
+=======
+>>>>>>> ff05a73 (signIn)
         <Route path="/add-item" element={<AddItem />} />
         <Route path="/outfit/recommendations" element={<OutfitRecommendation />} />
         <Route path="/closet" element={<ClosetForm />} />

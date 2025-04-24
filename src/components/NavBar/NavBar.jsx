@@ -1,7 +1,8 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 import { Link, useNavigate } from "react-router";
-import { useUser } from "../../contexts/UserContext.jsx";
-//import { closetForm } from "../ClosetForm/ClosetForm";
+import { UserContext } from "../../contexts/UserContext";
+// import { closetForm } from "../ClosetForm/ClosetForm";
+import { useUser } from "../../contexts/UserContext";
 
 
 function NavBar() {
@@ -31,9 +32,11 @@ function NavBar() {
           <li>
             <Link to="/OutfitRecommendation">Home/Recommendations</Link>
           </li>
+          <li><Link to="/Signin">Sign In</Link></li> 
           <li>
             <Link to="/closetForm">My Closet</Link>
           </li>
+          <li><Link to="/Signup">Sign Up</Link></li> 
           <li>
             <Link to="/">My Profile</Link>
           </li>

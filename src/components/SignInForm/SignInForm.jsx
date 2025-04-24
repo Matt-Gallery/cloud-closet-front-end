@@ -23,19 +23,14 @@ const SignInForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    const signedInUser = await signIn(formData);
-   
-    if (!signedInUser) {
-      alert("Invalid credentials");
-      return;
+      const signedInUser = await signIn(formData);
+      setUser(signedInUser);
+      navigate("/closet");
+    } catch (err) {
+      console.error(err);
+      alert("Sign-in failed. Try again.");
     }
-    setUser(signedInUser);
-    navigate("/closet");
-  } catch (err) {
-    console.error(err);
-    alert("Sign-in failed. Try again.");
-  }
-};
+  };
 
   return (
     <main>

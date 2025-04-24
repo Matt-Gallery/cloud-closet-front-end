@@ -21,9 +21,9 @@ export const signUp = async (formData) => {
 
     localStorage.setItem("token", data.token);
     return JSON.parse(atob(data.token.split(".")[1])).payload;
-  } catch (error) {
+  } catch (err) {
     console.log(err);
-    throw new Error(err);
+    //throw new Error(err);
   }
 };
 
@@ -52,6 +52,6 @@ export const signIn = async (formData) => {
     return JSON.parse(atob(data.token.split(".")[1])).payload;
   } catch (err) {
     console.error("❌ Sign-In Error:", err);
-    throw err;
+    
   }
 };

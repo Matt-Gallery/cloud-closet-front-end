@@ -67,7 +67,14 @@ const App = () => {
         <Route path="/signin" element={<SignInForm />} />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+        <Route path="/add-item" element={<AddItem />} />
+        <Route path="/closet" element={<ClosetForm />} />
+        <Route path="/outfitRecommendation" element={<OutfitRecommendation />} />
+      </Routes>
+>>>>>>> ff05a736e921bb66181631b105f6d7e8843279f3
 
 >>>>>>> 69a39af (WIP)
 =======

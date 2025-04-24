@@ -6,6 +6,7 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { UserProvider, UserContext } from './contexts/UserContext';
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
 import { closetForm } from "../ClosetForm/ClosetForm";
 
+
 function NavBar() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();

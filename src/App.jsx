@@ -1,4 +1,3 @@
-
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -6,8 +5,8 @@ import SignUpForm from "./components/SignUpForm/SignUpForm.jsx";
 import SignInForm from "./components/SignInForm/SignInForm.jsx";
 import Landing from "./components/Landing/Landing.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
-import Show from "./components/Show/Show.jsx";
 import AddItem from "./components/AddItem/AddItem.jsx";
+import OutfitRecommendation from "./components/OutfitRecommendation/OutfitRecommendation.jsx";
 import WeatherSearch from "./components/Weather/weatherSearch.jsx";
 import * as weatherService from "./components/Weather/weatherService.jsx";
 import ClosetForm from "./components/ClosetForm/ClosetForm.jsx";
@@ -44,6 +43,10 @@ const App = () => {
       location: data.location.name,
       temperature: data.current.temp_f,
       condition: data.current.condition.text,
+      precipitation: data.current.precip_mm,
+      humidity: data.current.humidity,
+      windSpeed: data.current.wind_mph,
+      uvIndex: data.current.uv
     };
     setWeather(newWeather);
   };
@@ -72,12 +75,15 @@ const App = () => {
             <h3>Weather in {weather.location}</h3>
             <p>{weather.temperature}°F</p>
             <p>{weather.condition}</p>
+            <p>Precipitation: {weather.precipitation} mm</p>
+            <p>Humidity: {weather.humidity}%</p>
+            <p>Wind: {weather.windSpeed} mph</p>
+            <p>UV Index: {weather.uvIndex}</p>
           </section>
         )}
       </main>
     </>
   );
 };
-
 
 export default App;

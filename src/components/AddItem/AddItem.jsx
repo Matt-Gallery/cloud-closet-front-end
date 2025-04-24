@@ -12,13 +12,13 @@ const categoryOptions = {
 
 const colorOptions = ["Black", "White", "Blue", "Red", "Green", "Yellow", "Gray", "Pink", "Purple", "Brown", "Pattern"];
 
-const AddItem = () => { 
+const AddItem = ({ onAdd }) => { 
     const newItem = ["Shirt", "Pants", "Sweater", "Skirt", "Dress", "Shoes", "Blazer"];
 
     const [formData, setFormData] = useState({
-        title: "",
+        name: "",
         category: "Shirt",
-        subcategory: categoryOptions["Shirt"][0],
+        subCategory: categoryOptions["Shirt"][0],
         color: "",
     });
    
@@ -40,6 +40,13 @@ const AddItem = () => {
 const handleSubmit = (e) => {
     e.preventDefault();
     console.log("New Item Added", formData);
+    onAdd(formData);
+    setFormData({
+        name: "",
+        category: "Shirt",
+        subCategory: categoryOptions["Shirt"][0],
+        color: "",  
+    });
 };
 
 
@@ -51,7 +58,7 @@ return (
             Custom Title: 
             <input
             type="text"
-            name="title"
+            name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="e.g., Yellow Button-Up from Gap"
@@ -80,8 +87,8 @@ return (
         <label>
             Subcategory: 
             <select
-            name="subcategory"
-            value={formData.subcategory}
+            name="subCategory"
+            value={formData.subCategory}
             onChange={handleChange}
             >
              {categoryOptions[formData.category].map((sub, idx) => (
@@ -98,7 +105,7 @@ return (
             <select
             name="color"
             value={formData.color}
-            onChanged={handleChange}
+            onChange={handleChange}
             >
             <option value="">--Select a Color--</option>
             {colorOptions.map((color, idx) => (

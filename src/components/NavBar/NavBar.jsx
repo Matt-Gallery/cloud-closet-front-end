@@ -5,8 +5,8 @@ import { closetForm } from "../ClosetForm/ClosetForm";
 
 
 function NavBar() {
-  const { user, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { user, setUser } = useUser();
+  const navigate          = useNavigate();
 
   const handleSignOut = () => {
     localStorage.removeItem("token");

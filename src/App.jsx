@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+import { Navigate } from "react-router-dom";
+
+=======
+>>>>>>> ad1884a942d98c31e59242425d528f0b9fb1c0ec
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -24,7 +29,7 @@ const App = () => {
         async (position) => {
           const coords = `${position.coords.latitude},${position.coords.longitude}`;
           const data = await weatherService.display(coords);
-          updateWeather(data);
+          handleWeatherUpdate(data);
         },
         (error) => console.error("Geolocation error:", error)
       );
@@ -34,10 +39,10 @@ const App = () => {
   // this step lets the user override geolocation and enter any city they want
   const fetchData = async (city) => {
     const data = await weatherService.display(city);
-    updateWeather(data);
+    handleWeatherUpdate(data);
   };
 
-  const updateWeather = (data) => {
+  const handleWeatherUpdate = (data) => {
     if (!data || !data.current || !data.location) return;
     const newWeather = {
       location: data.location.name,

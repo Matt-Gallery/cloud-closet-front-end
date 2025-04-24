@@ -7,6 +7,8 @@
   --border-radius: 0px;
   --spacing: 40px;
   --font-family: 'Arial', 'Helvetica', sans-serif;
+  --shape-color: #222;
+  --shape-border: 2px solid var(--shape-color);
 }
 
 .outfit-recommendation-container {
@@ -61,18 +63,88 @@
   border-radius: var(--border-radius);
   padding: 15px 25px;
   border: 1px solid #e0e0e0;
+  width: 100%;
+  max-width: 400px;
 }
 
 .location {
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .weather-details {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
   font-size: 0.9rem;
+}
+
+.weather-condition {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.weather-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.weather-text {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.weather-extended {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+  margin-top: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.location-form {
+  display: flex;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.location-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.location-btn {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.location-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.weather-loading {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #666;
 }
 
 .regenerate-btn {
@@ -91,42 +163,93 @@
   background-color: #333;
 }
 
-.outfit-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
-  width: 100%;
+/* New outfit layout styling */
+.outfit-layout {
+  display: flex;
+  margin: 40px 0;
+  padding: 20px;
+  border: 1px solid #eee;
+  background-color: white;
 }
 
-.outfit-item {
-  position: relative;
+.vertical-items {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  flex: 1;
+}
+
+.jacket-container {
+  margin-right: 40px;
+  padding-right: 40px;
+  border-right: 1px solid #eee;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.top-item, .bottom-item, .shoes-item, .jacket-item {
-  width: 100%;
+.sweater-container {
+  margin-left: 40px;
+  padding-left: 40px;
+  border-left: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 }
 
-.outfit-item img {
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-  background-color: var(--accent-color);
-  border-radius: var(--border-radius);
-  transition: transform 0.3s;
 }
 
-.outfit-item img:hover {
-  transform: scale(1.02);
+.shape-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+/* Clothing icon styles */
+.clothing-icon {
+  font-size: 3rem;
+  line-height: 1;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.clothing-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Remove old shape styles as they're no longer needed */
+.item-label {
+  flex: 1;
+}
+
+.item-name {
+  font-weight: 500;
+  margin: 0 0 3px 0;
+  font-size: 14px;
+}
+
+.item-category {
+  color: #777;
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 
 .cycle-btn {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid #ddd;
   border-radius: 50%;
@@ -138,6 +261,12 @@
   cursor: pointer;
   font-size: 1.2rem;
   transition: all 0.2s;
+}
+
+.cycle-btn.small {
+  width: 30px;
+  height: 30px;
+  font-size: 0.9rem;
 }
 
 .cycle-btn:hover {
@@ -180,6 +309,45 @@
   color: #ddd;
 }
 
+.rating-success {
+  margin-top: 10px;
+  color: #2e7d32;
+  font-size: 14px;
+  background-color: #e8f5e9;
+  padding: 5px 10px;
+  border-radius: 4px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.rating-error {
+  margin-top: 10px;
+  color: #c62828;
+  font-size: 14px;
+  background-color: #ffebee;
+  padding: 5px 10px;
+  border-radius: 4px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Error handling styles */
+.error-container {
+  text-align: center;
+  padding: 30px;
+  background-color: #ffebee;
+  border-radius: var(--border-radius);
+  margin: 20px 0;
+}
+
+.error {
+  color: #c62828;
+  margin-bottom: 20px;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .outfit-recommendation-container {
@@ -191,11 +359,19 @@
     font-size: 1.8rem;
   }
   
-  .outfit-section {
-    grid-template-columns: 1fr;
+  .outfit-layout {
+    flex-direction: column;
   }
   
-  .outfit-item img {
-    height: 250px;
+  .jacket-container, .sweater-container {
+    margin: 0 0 30px 0;
+    padding: 0 0 30px 0;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .shape-container {
+    width: 100%;
   }
 }

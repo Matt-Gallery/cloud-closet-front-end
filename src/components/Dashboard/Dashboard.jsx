@@ -1,14 +1,14 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext.jsx";
 import { index } from "../../services/userService.js";
-import { getWeatherBasedRecommendations, getUserRecommendations } from "../../services/outfitService.js";
-import { generateOutfitRecommendation } from "../../services/recommendationService.js";
+import { getUserRecommendations } from "../../services/outfitService.js";
 import { Link } from "react-router";
+import "./Dashboard.css";
 
-function Dashboard({ weather }) {
+function Dashboard() {
   const { user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
-  const [outfit, setOutfit] = useState(null);
+  const [savedOutfits, setSavedOutfits] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -21,52 +21,37 @@ function Dashboard({ weather }) {
     }
   };
 
-  // Fetch outfit recommendations when weather data changes
+  // Fetch saved outfits on component mount
   useEffect(() => {
-    if (user && weather) {
-      fetchOutfitRecommendations();
+    if (user && user._id) {
+      fetchSavedOutfits();
     }
-  }, [weather, user]);
+  }, [user]);
 
   useEffect(() => {
     if (user) fetchUsers();
   }, [user]);
 
-  const fetchOutfitRecommendations = async () => {
+  const fetchSavedOutfits = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // First try to get user's saved recommendations
+      // Get user's saved recommendations
       if (user && user._id) {
         try {
           const savedRecommendations = await getUserRecommendations(user._id);
-          if (savedRecommendations && savedRecommendations.recommendations) {
-            const generatedOutfit = generateOutfitRecommendation(savedRecommendations);
-            if (generatedOutfit.success) {
-              setOutfit(generatedOutfit.outfit);
-              setLoading(false);
-              return;
-            }
+          if (savedRecommendations && savedRecommendations.outfits) {
+            setSavedOutfits(savedRecommendations.outfits);
           }
         } catch (err) {
-          console.log("No saved recommendations found, generating new ones");
-        }
-      }
-      
-      // If no saved recommendations or error, get new recommendations from weather
-      if (weather) {
-        const recommendationsData = await getWeatherBasedRecommendations(weather);
-        const generatedOutfit = generateOutfitRecommendation(recommendationsData);
-        if (generatedOutfit.success) {
-          setOutfit(generatedOutfit.outfit);
-        } else {
-          setError(generatedOutfit.message || "Could not generate outfit");
+          console.log("No saved outfits found");
+          setError("No saved outfits found");
         }
       }
     } catch (err) {
-      console.error("Error fetching outfit recommendations:", err);
-      setError("Failed to get outfit recommendations");
+      console.error("Error fetching saved outfits:", err);
+      setError("Failed to get saved outfits");
     } finally {
       setLoading(false);
     }
@@ -76,67 +61,32 @@ function Dashboard({ weather }) {
     <main>
       <h1>Welcome, {user?.username}</h1>
       
-      {/* Weather information */}
-      {weather && (
-        <section className="weather-info">
-          <h2>Current Weather</h2>
-          <p>Location: {weather.location}</p>
-          <p>Temperature: {weather.temperature}°F</p>
-          <p>Condition: {weather.condition}</p>
-        </section>
-      )}
-      
-      {/* Outfit recommendations */}
+      {/* Outfit recommendations link */}
       <section className="outfit-recommendations">
-        <h2>Today's Outfit Recommendations</h2>
-        {loading && <p>Loading your outfit recommendations...</p>}
+        <h2>Outfit Recommendations</h2>
+        <p>Get personalized outfit recommendations based on current weather.</p>
+        <Link to="/outfit/recommendations" className="outfit-link">
+          Get Weather-Based Outfit Recommendations
+        </Link>
+      </section>
+      
+      {/* Saved outfits section */}
+      <section className="saved-outfits">
+        <h2>Your Saved Outfits</h2>
+        {loading && <p>Loading your saved outfits...</p>}
         {error && <p className="error">{error}</p>}
-        {outfit && !loading && (
-          <div className="outfit-container">
-            {outfit.topItems && outfit.topItems.length > 0 && (
-              <div className="outfit-section">
-                <h3>Top Items</h3>
-                {outfit.topItems.map((item, index) => (
-                  <div key={`top-${index}`} className="outfit-item">
-                    <p>{item.category}: {item.item.name}</p>
-                    {item.item.imageUrl && <img src={item.item.imageUrl} alt={item.item.name} />}
-                  </div>
-                ))}
+        {savedOutfits.length > 0 ? (
+          <div className="outfits-grid">
+            {savedOutfits.map((outfit, index) => (
+              <div key={outfit._id || index} className="saved-outfit-card">
+                <h3>Outfit #{index + 1}</h3>
+                <p>Rating: {outfit.rating}/5</p>
+                {/* Display more outfit details as needed */}
               </div>
-            )}
-            
-            {outfit.bottomItem && (
-              <div className="outfit-section">
-                <h3>Bottom</h3>
-                <p>{outfit.bottomItem.category}: {outfit.bottomItem.item.name}</p>
-                {outfit.bottomItem.item.imageUrl && (
-                  <img src={outfit.bottomItem.item.imageUrl} alt={outfit.bottomItem.item.name} />
-                )}
-              </div>
-            )}
-            
-            {outfit.shoes && (
-              <div className="outfit-section">
-                <h3>Shoes</h3>
-                <p>{outfit.shoes.name}</p>
-                {outfit.shoes.imageUrl && <img src={outfit.shoes.imageUrl} alt={outfit.shoes.name} />}
-              </div>
-            )}
-            
-            {outfit.jacket && (
-              <div className="outfit-section">
-                <h3>Jacket</h3>
-                <p>{outfit.jacket.name}</p>
-                {outfit.jacket.imageUrl && <img src={outfit.jacket.imageUrl} alt={outfit.jacket.name} />}
-              </div>
-            )}
+            ))}
           </div>
-        )}
-        
-        {!outfit && !loading && !error && weather && (
-          <button onClick={fetchOutfitRecommendations}>
-            Get Outfit Recommendations
-          </button>
+        ) : (
+          <p>No saved outfits yet. Rate outfits to save them!</p>
         )}
       </section>
       

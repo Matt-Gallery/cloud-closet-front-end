@@ -62,9 +62,8 @@ const App = () => {
         />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />
-        <Route path="/users/:id" element={<Show />} />
         <Route path="/add-item" element={<AddItem />} />
-        <Route path="/closet" element={<ClosetForm />} />
+        <Route path="/closetForm" element={<ClosetForm />} />
         <Route path="/outfitRecommendation" element={<OutfitRecommendation />} />
       </Routes>
 

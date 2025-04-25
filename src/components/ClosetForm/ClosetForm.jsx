@@ -277,8 +277,8 @@ const ClosetForm = () => {
     return (
         <div className="closet-container">
             <div className="closet-header">
-                <h1>Hello, Beauty!</h1>
-                <p>Manage your closet and view your saved outfits</p>
+                <h1>Hello, {user?.username || "Turtle"}!</h1>
+                <p>Add a new item to your closet</p>
             </div>
 
             <div className="closet-content">

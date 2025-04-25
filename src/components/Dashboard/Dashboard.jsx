@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext.jsx";
 import { index } from "../../services/userService.js";
 import { getUserRecommendations } from "../../services/outfitService.js";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -65,7 +65,7 @@ function Dashboard() {
       <section className="outfit-recommendations">
         <h2>Outfit Recommendations</h2>
         <p>Get personalized outfit recommendations based on current weather.</p>
-        <Link to="/outfit/recommendations" className="outfit-link">
+        <Link to="/OutfitRecommendations" className="outfit-link">
           Get Weather-Based Outfit Recommendations
         </Link>
       </section>

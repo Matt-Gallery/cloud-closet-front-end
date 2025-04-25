@@ -15,6 +15,7 @@ import WeatherSearch from "./components/Weather/weatherSearch.jsx";
 import * as weatherService from "./components/Weather/weatherService.jsx";
 import ClosetForm from "./components/ClosetForm/ClosetForm.jsx";
 import { UserContext } from "./contexts/UserContext.jsx";
+import MyProfile from './components/MyProfile/MyProfile.jsx';
 import "./App.css";
 
 const App = () => {
@@ -69,6 +70,7 @@ const App = () => {
         <Route path="/signin" element={<SignInForm />} />
         <Route path="/add-item" element={<AddItem />} />
         <Route path="/closet" element={<ClosetForm />} />
+        <Route path="/profile" element={<MyProfile />} />
         <Route path="/OutfitRecommendations" element={<OutfitRecommendation />} />
         <Route path="/OutfitRecommendation" element={<OutfitRecommendation />} />
         <Route path="/closetForm" element={<ClosetForm />} />

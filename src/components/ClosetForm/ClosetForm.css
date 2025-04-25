@@ -13,11 +13,13 @@
   background-color: var(--primary-color);
   border-radius: var(--border-radius);
   padding: var(--spacing);
-  max-width: 1000px;
+  max-width: 1440px;
   margin: 40px auto;
   color: var(--text-color);
   font-family: var(--font-family);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 98%; /* Set a percentage width of viewport */
+  min-width: 1320px; /* Ensure minimum width */
 }
 
 .closet-header {
@@ -49,15 +51,168 @@
   color: #777;
 }
 
+/* Category filter tabs */
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  justify-content: space-between; /* Distribute tabs evenly */
+}
+
+.category-tab {
+  padding: 6px 8px;
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+  text-transform: capitalize;
+  min-width: 60px;
+  max-width: 120px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 1px;
+  flex: 1; /* Make tabs take equal width */
+}
+
+.category-tab:hover {
+  background-color: #f9f9f9;
+  border-color: #ccc;
+}
+
+.category-tab.active {
+  background-color: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+
+/* Subcategory filter tabs */
+.subcategory-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 20px;
+  padding: 8px 0;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.subcategory-tab {
+  padding: 5px 8px;
+  background: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #777;
+  text-transform: capitalize;
+  min-width: 40px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 1px;
+}
+
+.subcategory-tab:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.subcategory-tab.active {
+  background-color: #f0f0f0;
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  font-weight: 600;
+}
+
+/* Color filter tabs */
+.color-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.color-tab {
+  padding: 5px 10px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+  text-transform: capitalize;
+  min-width: 40px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 1px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.color-tab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.color-tab.active {
+  border-width: 2px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Common styles for filter sections */
+.filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  margin-right: 8px;
+  min-width: 78px;
+  display: flex;
+  align-items: center;
+}
+
+/* Two-column layout */
+.closet-content {
+  display: flex;
+  gap: 30px;
+}
+
+.closet-left-column {
+  flex: 1;
+  padding-right: 10px;
+}
+
+.closet-right-column {
+  flex: 1;
+  border-left: 1px solid #eee;
+  padding-left: 30px;
+}
+
 .closet-form-section {
   margin-bottom: 40px;
 }
 
-.items-list {
+.items-list, .saved-outfits {
   margin-top: 30px;
 }
 
-.items-list h2 {
+.items-list h2, .saved-outfits h2 {
   font-size: 1.8rem;
   font-weight: 300;
   text-transform: uppercase;
@@ -67,7 +222,7 @@
   display: inline-block;
 }
 
-.items-list h2:after {
+.items-list h2:after, .saved-outfits h2:after {
   content: "";
   display: block;
   width: 30px;
@@ -80,7 +235,7 @@
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 20px;
 }
 
@@ -106,11 +261,17 @@
   font-size: 0.9rem;
 }
 
-.loading-message {
+.loading-message, .error-message {
   text-align: center;
   padding: 20px;
   font-style: italic;
   color: #666;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border-radius: var(--border-radius);
 }
 
 .empty-message {
@@ -121,7 +282,100 @@
   color: #777;
 }
 
+/* Saved Outfits Styling */
+.outfits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.outfit-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.outfit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.outfit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.outfit-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.outfit-rating {
+  background-color: #f8f4ff;
+  color: #6200ea;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.outfit-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.outfit-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.outfit-item h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #555;
+  font-weight: 600;
+}
+
+.outfit-item p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.outfit-date {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+  margin-top: 10px;
+  font-style: italic;
+}
+
 /* Responsive styles */
+@media (max-width: 992px) {
+  .closet-content {
+    flex-direction: column;
+  }
+  
+  .closet-right-column {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid #eee;
+    padding-top: 30px;
+    margin-top: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .closet-container {
     padding: 20px;
@@ -135,4 +389,85 @@
   .items-list ul {
     grid-template-columns: 1fr;
   }
+  
+  .outfit-items {
+    grid-template-columns: 1fr;
+  }
+  
+  .category-tabs {
+    overflow-x: auto;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Clickable item styling */
+.clickable-item {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.clickable-item:hover {
+  background-color: #f9f9f9;
+}
+
+.edit-hint {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 12px;
+  color: #999;
+  background-color: #f0f0f0;
+  padding: 3px 6px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.clickable-item:hover .edit-hint {
+  opacity: 1;
+}
+
+/* Form buttons styling */
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.form-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.form-buttons button[type="submit"] {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.form-buttons button[type="submit"]:hover {
+  background-color: #333;
+}
+
+.cancel-button {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.delete-button {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.delete-button:hover {
+  background-color: #ffcdd2;
 } 

@@ -49,8 +49,9 @@ export const signIn = async (formData) => {
     }
 
     localStorage.setItem("token", data.token);
-    return JSON.parse(atob(data.token.split(".")[1])).payload;
+    return data; // Return the entire data object, not just the parsed token payload
   } catch (err) {
     console.error("❌ Sign-In Error:", err);
+    throw err; // Rethrow the error so it can be caught by the component
   }
 };

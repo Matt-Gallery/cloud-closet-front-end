@@ -9,6 +9,7 @@ import Landing from "./components/Landing/Landing.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import AddItem from "./components/AddItem/AddItem.jsx";
 import OutfitRecommendation from "./components/OutfitRecommendation/OutfitRecommendation.jsx";
+import OutfitsList from "./components/OutfitsList/OutfitsList.jsx";
 
 import WeatherSearch from "./components/Weather/weatherSearch.jsx";
 import * as weatherService from "./components/Weather/weatherService.jsx";
@@ -66,9 +67,10 @@ const App = () => {
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />
-        <Route path="/OutfitRecommendation" element={<OutfitRecommendation />} />
-        <Route path="/ClosetForm" element={<ClosetForm />} />
-
+        <Route path="/add-item" element={<AddItem />} />
+        <Route path="/closet" element={<ClosetForm />} />
+        <Route path="/outfit/recommendations" element={<OutfitRecommendation />} />
+        <Route path="/closetForm" element={<ClosetForm />} />
       </Routes>
     </>
   );

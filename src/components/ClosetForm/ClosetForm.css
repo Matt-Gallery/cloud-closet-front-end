@@ -80,6 +80,10 @@
   text-overflow: ellipsis;
   margin: 0 1px;
   flex: 1; /* Make tabs take equal width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .category-tab:hover {
@@ -91,6 +95,13 @@
   background-color: var(--secondary-color);
   color: white;
   border-color: var(--secondary-color);
+}
+
+.category-tab-icon {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Subcategory filter tabs */
@@ -244,6 +255,9 @@
   padding: 15px;
   border: 1px solid #eee;
   transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .items-list li:hover {
@@ -259,6 +273,19 @@
 .item-details {
   color: #777;
   font-size: 0.9rem;
+}
+
+.item-icon {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.item-details-content {
+  flex: 1;
 }
 
 .loading-message, .error-message {
@@ -359,6 +386,14 @@
   color: #888;
   margin-top: 10px;
   font-style: italic;
+}
+
+.outfit-item-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  height: 30px;
 }
 
 /* Responsive styles */

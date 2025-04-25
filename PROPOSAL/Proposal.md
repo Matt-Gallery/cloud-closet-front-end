@@ -65,53 +65,50 @@ The purpose of the application is to make it easy for users to decide what to we
 ![Wireframes](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/Wireframes.png?raw=true)
 
 ## Component Hierarchy Diagram
-![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/weather-wardrobe/blob/72f1af3455e0e9dcdc4ba4d14db63eabf8816323/Component%20Hierarchy%20Diagram.png)
+![Component Hierarchy Diagram.png](https://github.com/Matt-Gallery/cloud-closet-front-end/blob/main/Component%20Hierarchy%202.png?raw=true)
 
 ## Entity Relationship Diagram (ERD)
 
-![ERD](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/ERD.png?raw=true)
-
-
+![ERD](https://github.com/Matt-Gallery/cloud-closet-front-end/blob/main/ERD%202.png?raw=true)
 
 ## Routing Table
 
-![Routing Table](https://github.com/Matt-Gallery/weather-wardrobe/blob/main/Routing%20Table%202.png?raw=true)
+#### Authentication
+| HTTP Method | Path            | Purpose                   |
+|-------------|-----------------|---------------------------|
+| POST        | /auth/signup    | Create account (Sign-up)  |
+| POST        | /auth/signin/:userId    | Log into account (Sign-in)|
+| POST        | /auth/signout/:userId    | Log out of account        |
 
+#### User Account
+| HTTP Method | Path                | Purpose                       |
+|-------------|---------------------|-------------------------------|
+| GET         | /account            | View account details          |
+| PUT         | /account            | Edit/update account details   |
+| DELETE      | /account            | Delete account                |
 
-## Pseudocode
-```js
-/*-------------------------------- Import --------------------------------*/
-// express
-// react
-// react-router
-// mongoose
-// dotenv
-// method-override
-// morgan
-// express-session
-// bcrypt
-// CORS
-// db
-/*------------------------------- Pages -------------------------------*/
-// Landing/Login/Signup
-// Recommendations
-// Closet
-/*-------------------------------- Routes --------------------------------*/
-// POST Sign in
-// POST Sign up
-// GET account
-// PUT Edit Account
-// DELETE Account
-// GET weather
-// GET Recommended outfit
-// GET closet
-// GET saved outsfits
-// PUT edit saved outfits
-// POST Add new clothing item
-// PUT Edit clothing
-// DELETE clothing
-// GET Sign out
-```
+#### Wardrobe Items
+| HTTP Method | Path                  | Purpose                             |
+|-------------|-----------------------|-------------------------------------|
+| GET         | /closet               | View all wardrobe items             |
+| POST        | /closet               | Add new wardrobe item               |
+| PUT         | /closet/:itemId       | Edit/update a specific wardrobe item|
+| DELETE      | /closet/:itemId       | Delete a specific wardrobe item     |
+
+#### Outfit Recommendations
+| HTTP Method | Path                     | Purpose                                                   |
+|-------------|--------------------------|-----------------------------------------------------------|
+| GET         | /outfit/recommendations | View today's recommended outfit(s) based on weather       |
+| POST        | /outfit/recommendations/cycle-item | Cycle individual item recommendation          |
+| POST        | /outfit/recommendations/cycle-outfit | Cycle entire outfit recommendation          |
+| POST        | /outfit/recommendations/dislike | Permanently dislike an outfit recommendation     |
+
+#### Rated Outfits
+| HTTP Method | Path                 | Purpose                               |
+|-------------|----------------------|---------------------------------------|
+| GET         | /outfit/rated       | View all rated outfits                |
+| PUT         | /outfit/rated/:outfitId | Edit a rated outfit               |
+| DELETE      | /outfit/rated/:outfitId | Delete a rated outfit             |
 
 ## Timeline
 

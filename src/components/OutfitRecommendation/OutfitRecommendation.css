@@ -375,3 +375,108 @@
     width: 100%;
   }
 }
+
+/* Add to the existing CSS file */
+
+.shape-container.clickable {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.shape-container.clickable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shape-container.clickable::after {
+  content: "Click to change";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.shape-container.clickable:hover::after {
+  opacity: 1;
+}
+
+/* Add styling for the remove button */
+.remove-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  color: #ff4d4d;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 5px;
+}
+
+.remove-btn:hover {
+  background-color: #ff4d4d;
+  color: white;
+  border-color: #ff4d4d;
+}
+
+/* Add styling for item controls */
+.item-controls {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+/* Add styling for the add item button */
+.add-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  min-height: 120px;
+}
+
+.add-item-btn {
+  background-color: #f9f9f9;
+  border: 2px dashed #ddd;
+  color: #777;
+  border-radius: 8px;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-item-btn:hover {
+  background-color: #f0f0f0;
+  border-color: #aaa;
+  color: #333;
+}
+
+.plus-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+/* Make sure the jacket and sweater containers have consistent width */
+.jacket-container, .sweater-container {
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

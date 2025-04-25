@@ -2,9 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import { useUser } from "../../contexts/UserContext";
 import { getWeatherBasedRecommendations, saveOutfitRating } from "../../services/outfitService.js";
 import { generateOutfitRecommendation } from "../../services/recommendationService.js";
+import { getUserItems } from "../../services/itemService.js";
 import getWeatherIcon from "../../utils/weatherIcons.js";
 import getClothingIcon from "../../utils/clothingIcons.jsx";
 import * as weatherService from "../Weather/weatherService.jsx";
+import ItemSelectionPanel from "./ItemSelectionPanel.jsx";
 import "./OutfitRecommendation.css";
 import { jwtDecode } from 'jwt-decode';
 
@@ -21,6 +23,14 @@ function OutfitRecommendation() {
   const [weather, setWeather] = useState(null);
   const [city, setCity] = useState("");
   const [weatherLoading, setWeatherLoading] = useState(false);
+  
+  // User closet items
+  const [closetItems, setClosetItems] = useState([]);
+  const [closetLoading, setClosetLoading] = useState(false);
+  
+  // Item selection panel state
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showItemPanel, setShowItemPanel] = useState(false);
   
   // For cycling through different options for each item type
   const [availableOptions, setAvailableOptions] = useState({
@@ -494,6 +504,121 @@ function OutfitRecommendation() {
     return stars;
   };
 
+  // Fetch user's closet items
+  useEffect(() => {
+    if (user && user._id) {
+      fetchClosetItems();
+    }
+  }, [user]);
+  
+  const fetchClosetItems = async () => {
+    try {
+      setClosetLoading(true);
+      const items = await getUserItems(user._id);
+      console.log("Fetched closet items:", items);
+      
+      // Ensure we're handling both array and object responses
+      const itemsArray = Array.isArray(items) ? items : 
+                        (items && items.items ? items.items : []);
+                        
+      setClosetItems(itemsArray);
+    } catch (error) {
+      console.error("Failed to fetch closet items:", error);
+    } finally {
+      setClosetLoading(false);
+    }
+  };
+  
+  // Handle clicking on an item to open the selection panel
+  const handleItemClick = (category, type) => {
+    setSelectedCategory(category);
+    setShowItemPanel(true);
+  };
+  
+  // Handle selecting a replacement item from the panel
+  const handleSelectItem = (item) => {
+    if (!outfit) return;
+    
+    const newOutfit = { ...outfit };
+    
+    // Replace the appropriate item based on category
+    switch (selectedCategory) {
+      case "Shirt":
+      case "Sweater":
+        // If the outfit has a Sweater and you're replacing a Shirt (or vice versa),
+        // we need to keep the other item
+        const otherTopItems = newOutfit.topItems ? 
+          newOutfit.topItems.filter(topItem => 
+            topItem.category !== selectedCategory
+          ) : [];
+        
+        // Add the new item
+        newOutfit.topItems = [...otherTopItems, { category: selectedCategory, item }];
+        break;
+        
+      case "Pants":
+      case "Skirt":
+      case "Dress":
+        newOutfit.bottomItem = { category: selectedCategory, item };
+        
+        // Clear tops if switching to a dress
+        if (selectedCategory === "Dress") {
+          newOutfit.topItems = [];
+        }
+        // Add a top if switching from a dress to pants/skirt and no tops exist
+        else if (!newOutfit.topItems || newOutfit.topItems.length === 0) {
+          // Find a shirt in closet items
+          const shirts = closetItems.filter(item => item.category === "Shirt");
+          if (shirts.length > 0) {
+            const randomShirt = shirts[Math.floor(Math.random() * shirts.length)];
+            newOutfit.topItems = [{ category: "Shirt", item: randomShirt }];
+          }
+        }
+        break;
+        
+      case "Shoes":
+        newOutfit.shoes = item;
+        break;
+        
+      case "Jacket":
+        newOutfit.jacket = item;
+        break;
+        
+      default:
+        break;
+    }
+    
+    setOutfit(newOutfit);
+    setShowItemPanel(false);
+  };
+  
+  // Close the selection panel
+  const handleClosePanel = () => {
+    setShowItemPanel(false);
+  };
+
+  // Handle removing an optional item (jacket or sweater)
+  const handleRemoveItem = (itemType) => {
+    if (!outfit) return;
+    
+    const newOutfit = { ...outfit };
+    
+    if (itemType === "Jacket") {
+      newOutfit.jacket = null;
+    } else if (itemType === "Sweater") {
+      // Find and remove only the sweater from topItems
+      newOutfit.topItems = newOutfit.topItems.filter(item => item.category !== "Sweater");
+    }
+    
+    setOutfit(newOutfit);
+  };
+  
+  // Handle adding an optional item that isn't in the current outfit
+  const handleAddOptionalItem = (itemType) => {
+    setSelectedCategory(itemType);
+    setShowItemPanel(true);
+  };
+
   if (loading && !weather) {
     return <div className="loading">Loading weather data...</div>;
   }
@@ -575,9 +700,12 @@ function OutfitRecommendation() {
           <>
             <div className="outfit-layout">
               {/* Outerwear (left of top) */}
-              {outfit.jacket && (
+              {outfit.jacket ? (
                 <div className="jacket-container">
-                  <div className="shape-container">
+                  <div 
+                    className="shape-container clickable"
+                    onClick={() => handleItemClick("Jacket")}
+                  >
                     <div className="clothing-icon">
                       {getClothingIcon('Jacket', outfit.jacket.subCategory)}
                     </div>
@@ -586,16 +714,32 @@ function OutfitRecommendation() {
                       <p className="item-category">{outfit.jacket.subCategory}</p>
                     </div>
                   </div>
-                  <button className="cycle-btn small" onClick={cycleJacket}>→</button>
+                  <div className="item-controls">
+                    <button className="cycle-btn small" onClick={cycleJacket}>→</button>
+                    <button className="remove-btn" onClick={() => handleRemoveItem("Jacket")}>✕</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="add-item-container">
+                  <button 
+                    className="add-item-btn"
+                    onClick={() => handleAddOptionalItem("Jacket")}
+                  >
+                    <span className="plus-icon">+</span>
+                    <span>Add Jacket</span>
+                  </button>
                 </div>
               )}
 
               {/* Vertical stack (top, bottom, shoes) */}
               <div className="vertical-items">
                 {/* Top (show either the shirt or the first top if no layers) */}
-                {(bothTopLayers ? shirtItem : outfit.topItems[0]) && (
+                {(bothTopLayers ? shirtItem : outfit.topItems?.[0]) && (
                   <div className="item-row">
-                    <div className="shape-container">
+                    <div 
+                      className="shape-container clickable" 
+                      onClick={() => handleItemClick(bothTopLayers ? shirtItem.category : outfit.topItems[0].category)}
+                    >
                       <div className="clothing-icon">
                         {getClothingIcon(
                           bothTopLayers ? shirtItem.category : outfit.topItems[0].category,
@@ -622,7 +766,10 @@ function OutfitRecommendation() {
                 {/* Bottom */}
                 {outfit.bottomItem && (
                   <div className="item-row">
-                    <div className="shape-container">
+                    <div 
+                      className="shape-container clickable"
+                      onClick={() => handleItemClick(outfit.bottomItem.category)}
+                    >
                       <div className="clothing-icon">
                         {getClothingIcon(
                           outfit.bottomItem.category,
@@ -641,7 +788,10 @@ function OutfitRecommendation() {
                 {/* Shoes */}
                 {outfit.shoes && (
                   <div className="item-row">
-                    <div className="shape-container">
+                    <div 
+                      className="shape-container clickable"
+                      onClick={() => handleItemClick("Shoes")}
+                    >
                       <div className="clothing-icon">
                         {getClothingIcon('Shoes', outfit.shoes.subCategory)}
                       </div>
@@ -656,9 +806,12 @@ function OutfitRecommendation() {
               </div>
               
               {/* Sweater to the right, only if both shirt and sweater are present */}
-              {bothTopLayers && sweaterItem && (
+              {bothTopLayers && sweaterItem ? (
                 <div className="sweater-container">
-                  <div className="shape-container">
+                  <div 
+                    className="shape-container clickable"
+                    onClick={() => handleItemClick("Sweater")}
+                  >
                     <div className="clothing-icon">
                       {getClothingIcon('Sweater', sweaterItem.item.subCategory)}
                     </div>
@@ -667,8 +820,23 @@ function OutfitRecommendation() {
                       <p className="item-category">{sweaterItem.item.subCategory}</p>
                     </div>
                   </div>
-                  <button className="cycle-btn small" onClick={cycleTop}>→</button>
+                  <div className="item-controls">
+                    <button className="cycle-btn small" onClick={cycleTop}>→</button>
+                    <button className="remove-btn" onClick={() => handleRemoveItem("Sweater")}>✕</button>
+                  </div>
                 </div>
+              ) : (
+                outfit.bottomItem && outfit.bottomItem.category !== "Dress" && (
+                  <div className="add-item-container">
+                    <button 
+                      className="add-item-btn"
+                      onClick={() => handleAddOptionalItem("Sweater")}
+                    >
+                      <span className="plus-icon">+</span>
+                      <span>Add Outer Layer</span>
+                    </button>
+                  </div>
+                )
               )}
             </div>
             
@@ -680,6 +848,19 @@ function OutfitRecommendation() {
               {ratingSuccess && <div className="rating-success">Rating saved!</div>}
               {ratingError && <div className="rating-error">{ratingError}</div>}
             </div>
+            
+            {/* Item Selection Panel */}
+            {showItemPanel && (
+              <>
+                <div className="panel-overlay" onClick={handleClosePanel}></div>
+                <ItemSelectionPanel
+                  category={selectedCategory}
+                  items={closetItems}
+                  onSelectItem={handleSelectItem}
+                  onClose={handleClosePanel}
+                />
+              </>
+            )}
           </>
         )}
       </div>

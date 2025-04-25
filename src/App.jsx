@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { Routes, Route } from "react-router";
+import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import SignUpForm from "./components/SignUpForm/SignUpForm.jsx";
 import SignInForm from "./components/SignInForm/SignInForm.jsx";
@@ -72,6 +72,7 @@ const App = () => {
         <Route path="/closet" element={<ClosetForm />} />
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/OutfitRecommendations" element={<OutfitRecommendation />} />
+        <Route path="/OutfitRecommendation" element={<OutfitRecommendation />} />
         <Route path="/closetForm" element={<ClosetForm />} />
       </Routes>
     </>

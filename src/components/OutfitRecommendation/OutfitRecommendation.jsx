@@ -3,7 +3,7 @@ import { useUser } from "../../contexts/UserContext";
 import { getWeatherBasedRecommendations, saveOutfitRating } from "../../services/outfitService.js";
 import { generateOutfitRecommendation } from "../../services/recommendationService.js";
 import getWeatherIcon from "../../utils/weatherIcons.js";
-import getClothingIcon from "../../utils/clothingIcons.js";
+import getClothingIcon from "../../utils/clothingIcons.jsx";
 import * as weatherService from "../Weather/weatherService.jsx";
 import "./OutfitRecommendation.css";
 import { jwtDecode } from 'jwt-decode';

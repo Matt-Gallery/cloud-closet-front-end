@@ -28,7 +28,7 @@ function SignUpForm() {
     e.preventDefault();
     const newUser = await signUp(formData);
     setUser(newUser);
-    navigate("/OutfitRecommendation");
+    navigate("/closet");
   };
 
   return (

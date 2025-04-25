@@ -17,6 +17,7 @@ function NavBar() {
 
   return (
     <nav>
+
     {user ? (
       // if YES user
       <>

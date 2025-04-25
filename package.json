@@ -8,9 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-      "test": "jest"
+    "test": "jest"
   },
   "dependencies": {
+    "@hugeicons/core-free-icons": "^1.0.14",
+    "@hugeicons/react": "^1.0.5",
     "@vitejs/plugin-react": "^4.4.1",
     "classnames": "^2.5.1",
     "dotenv": "^16.5.0",

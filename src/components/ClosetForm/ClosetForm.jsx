@@ -3,6 +3,7 @@ import AddItem from "../AddItem/AddItem";
 import { useUser } from "../../contexts/UserContext";
 import { getUserOutfits } from "../../services/outfitService";
 import { updateItem, deleteItem } from "../../services/itemService";
+import getClothingIcon from "../../utils/clothingIcons.jsx";
 import './ClosetForm.css';
 
 const ClosetForm = () => {
@@ -278,7 +279,6 @@ const ClosetForm = () => {
         <div className="closet-container">
             <div className="closet-header">
                 <h1>Hello, {user?.username || "Turtle"}!</h1>
-                <p>Add a new item to your closet</p>
             </div>
 
             <div className="closet-content">
@@ -356,9 +356,15 @@ const ClosetForm = () => {
                                                 onClick={() => handleItemClick(item)}
                                                 className="clickable-item"
                                             >
-                                                <div className="item-name">{item.name}</div>
-                                                <div className="item-details">
-                                                    {item.category} - {item.subCategory} - {item.color}
+                                                <div className="item-icon">
+                                                    {getClothingIcon(item.category, item.subCategory)}
+                                                </div>
+                                                <div className="item-details-content">
+                                                    <div className="item-name">{item.name}</div>
+                                                    <div className="item-details">
+                                                        {item.category} - {item.subCategory}
+                                                        {item.color && <span className="item-color"> - {item.color}</span>}
+                                                    </div>
                                                 </div>
                                             </li>
                                         ))}
@@ -407,6 +413,11 @@ const ClosetForm = () => {
                                                         {outfit.topId && (
                                                             <div className="outfit-item">
                                                                 <h4>Top</h4>
+                                                                <div className="outfit-item-icon">
+                                                                    {topItem?.category && (
+                                                                        getClothingIcon(topItem.category, topItem.subCategory)
+                                                                    )}
+                                                                </div>
                                                                 <p>{topItem?.name || 'Unknown Top'}</p>
                                                                 <p>{topItem?.color || 'Unknown Color'}</p>
                                                                 {topItem?.category && <p>{topItem.category} - {topItem.subCategory}</p>}
@@ -415,6 +426,11 @@ const ClosetForm = () => {
                                                         {outfit.sweaterId && (
                                                             <div className="outfit-item">
                                                                 <h4>Sweater</h4>
+                                                                <div className="outfit-item-icon">
+                                                                    {sweaterItem?.category && (
+                                                                        getClothingIcon(sweaterItem.category, sweaterItem.subCategory)
+                                                                    )}
+                                                                </div>
                                                                 <p>{sweaterItem?.name || 'Unknown Sweater'}</p>
                                                                 <p>{sweaterItem?.color || 'Unknown Color'}</p>
                                                                 {sweaterItem?.category && <p>{sweaterItem.category} - {sweaterItem.subCategory}</p>}
@@ -423,6 +439,11 @@ const ClosetForm = () => {
                                                         {outfit.bottomId && (
                                                             <div className="outfit-item">
                                                                 <h4>Bottom</h4>
+                                                                <div className="outfit-item-icon">
+                                                                    {bottomItem?.category && (
+                                                                        getClothingIcon(bottomItem.category, bottomItem.subCategory)
+                                                                    )}
+                                                                </div>
                                                                 <p>{bottomItem?.name || 'Unknown Bottom'}</p>
                                                                 <p>{bottomItem?.color || 'Unknown Color'}</p>
                                                                 {bottomItem?.category && <p>{bottomItem.category} - {bottomItem.subCategory}</p>}
@@ -431,6 +452,11 @@ const ClosetForm = () => {
                                                         {outfit.shoesId && (
                                                             <div className="outfit-item">
                                                                 <h4>Shoes</h4>
+                                                                <div className="outfit-item-icon">
+                                                                    {shoesItem?.category && (
+                                                                        getClothingIcon(shoesItem.category, shoesItem.subCategory)
+                                                                    )}
+                                                                </div>
                                                                 <p>{shoesItem?.name || 'Unknown Shoes'}</p>
                                                                 <p>{shoesItem?.color || 'Unknown Color'}</p>
                                                                 {shoesItem?.category && <p>{shoesItem.category} - {shoesItem.subCategory}</p>}
@@ -439,6 +465,11 @@ const ClosetForm = () => {
                                                         {outfit.jacketId && (
                                                             <div className="outfit-item">
                                                                 <h4>Jacket</h4>
+                                                                <div className="outfit-item-icon">
+                                                                    {jacketItem?.category && (
+                                                                        getClothingIcon(jacketItem.category, jacketItem.subCategory)
+                                                                    )}
+                                                                </div>
                                                                 <p>{jacketItem?.name || 'Unknown Jacket'}</p>
                                                                 <p>{jacketItem?.color || 'Unknown Color'}</p>
                                                                 {jacketItem?.category && <p>{jacketItem.category} - {jacketItem.subCategory}</p>}

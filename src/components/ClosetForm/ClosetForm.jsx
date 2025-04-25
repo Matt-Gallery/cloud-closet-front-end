@@ -5,8 +5,8 @@ import { UserContext } from "../../contexts/UserContext";
 const ClosetForm = () => {
     //const { user } = useContext(UserContext);
     const user = {
-        _id: "6627fa6bc2a4a1d2f86f2a8f", // ✅ must look like a real Mongo ObjectId
-        email: "test@example.com"
+       // _id: "6627fa6bc2a4a1d2f86f2a8f", // ✅ must look like a real Mongo ObjectId
+        //email: "test@example.com"
       };
     const [closetItems, setClosetItems] = useState([]);
 
@@ -37,9 +37,7 @@ const ClosetForm = () => {
          
     return (
         <>
-      <h1>Hello, Beauty!</h1>
-      <p>Add a new item to your closet</p>
-
+      <h1>Hello, {user.username || "nerd"}</h1>
       <AddItem onAdd={addItemToCloset} />
 
       <h2>Your Closet:</h2>

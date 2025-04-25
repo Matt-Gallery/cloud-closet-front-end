@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
 // import { closetForm } from "../ClosetForm/ClosetForm";
 import { useUser } from "../../contexts/UserContext";
-
+import './NavBar.css';
 
 function NavBar() {
   const { user, setUser } =  useUser();
@@ -30,7 +30,7 @@ function NavBar() {
       ) : (
         <ul>
           <li>
-            <Link to="/OutfitRecommendation">Home/Recommendations</Link>
+            <Link to="/outfit/recommendations">Home/Recommendations</Link>
           </li>
           <li><Link to="/Signin">Sign In</Link></li> 
           <li>

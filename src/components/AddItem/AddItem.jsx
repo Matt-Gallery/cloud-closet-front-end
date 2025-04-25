@@ -28,7 +28,7 @@ const AddItem = ({ onAdd }) => {
               setFormData((prev) => ({
             ...prev,
             category: value, 
-            subcategory: categoryOptions[value][0],
+            subCategory: categoryOptions[value][0],
         }));
     } else {
         setFormData((prev) => ({

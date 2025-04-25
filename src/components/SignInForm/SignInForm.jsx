@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import { signIn } from "../../services/authService";
-import { UserContext } from "../../contexts/UserContext";
+import { UserContext, useUser } from "../../contexts/UserContext";
+import { jwtDecode } from 'jwt-decode';
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useUser();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -24,7 +25,11 @@ const SignInForm = () => {
     e.preventDefault();
     try {
       const signedInUser = await signIn(formData);
-      setUser(signedInUser);
+      const token = signedInUser.token;
+      localStorage.setItem('token', token);
+      
+      const decoded = jwtDecode(token);
+      setUser(decoded);
       navigate("/closet");
     } catch (err) {
       console.error(err);

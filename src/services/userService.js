@@ -1,4 +1,4 @@
-const BASE_URL = `${import.meta.env.VITE_BACKEND_SERVER_URL}/api/users`;
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/users`;
 
 export const index = async () => {
   try {

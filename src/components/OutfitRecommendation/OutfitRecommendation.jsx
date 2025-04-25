@@ -326,6 +326,12 @@ function OutfitRecommendation() {
         outfitData.topId = topItem.item._id;
       }
       
+      // Get sweater ID if available
+      const sweaterItem = findSweaterItem();
+      if (sweaterItem && sweaterItem.item && sweaterItem.item._id) {
+        outfitData.sweaterId = sweaterItem.item._id;
+      }
+      
       // Get bottom ID
       if (outfit.bottomItem && outfit.bottomItem.item && outfit.bottomItem.item._id) {
         outfitData.bottomId = outfit.bottomItem.item._id;
@@ -336,9 +342,9 @@ function OutfitRecommendation() {
         outfitData.shoesId = outfit.shoes._id;
       }
       
-      // Get jacket ID (as potential accessory)
+      // Get jacket ID
       if (outfit.jacket && outfit.jacket._id) {
-        outfitData.accessoryId = outfit.jacket._id;
+        outfitData.jacketId = outfit.jacket._id;
       }
       
       // Save the rating

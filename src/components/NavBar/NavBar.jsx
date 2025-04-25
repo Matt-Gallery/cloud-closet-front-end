@@ -24,6 +24,15 @@ function NavBar() {
             <Link to="/">Dashboard</Link>
           </li>
           <li>
+            <Link to="/closetForm">My Closet</Link>
+          </li>
+          <li>
+            <Link to="/outfits">My Outfits</Link>
+          </li>
+          <li>
+            <Link to="/outfit/recommendations">Recommendations</Link>
+          </li>
+          <li>
             <button onClick={handleSignOut}>Sign Out</button>
           </li>
         </ul>

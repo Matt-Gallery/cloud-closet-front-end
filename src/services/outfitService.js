@@ -3,8 +3,8 @@
  */
 
 // Use a default URL if the environment variable is undefined
-const BASE_URL = import.meta.env.VITE_BACK_END_SERVER_URL 
-  ? `${import.meta.env.VITE_BACK_END_SERVER_URL}/api` 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL 
+  ? `${import.meta.env.VITE_BACKEND_URL}/api` 
   : 'http://localhost:3001/api'; // replace with your actual backend URL
 
 /**
@@ -19,10 +19,6 @@ export const getWeatherBasedRecommendations = async (weatherData, userId) => {
       throw new Error("User ID is required to fetch recommendations");
     }
     
-    console.log("Using API URL:", BASE_URL);
-    console.log("Weather data being sent:", weatherData);
-    console.log("User ID:", userId);
-    
     // Build query parameters from weather data
     const queryParams = new URLSearchParams();
     for (const [key, value] of Object.entries(weatherData)) {
@@ -30,7 +26,6 @@ export const getWeatherBasedRecommendations = async (weatherData, userId) => {
     }
     
     const url = `${BASE_URL}/recommendations/${userId}?${queryParams.toString()}`;
-    console.log("Request URL:", url);
     
     const res = await fetch(url, {
       method: "GET",
@@ -62,11 +57,6 @@ export const getWeatherBasedRecommendations = async (weatherData, userId) => {
  * Save an outfit rating to the backend
  * @param {string} userId - The user's ID
  * @param {Object} outfitData - Object containing item IDs and rating
- * @param {string} [outfitData.topId] - ID of the top item
- * @param {string} [outfitData.bottomId] - ID of the bottom item
- * @param {string} [outfitData.shoesId] - ID of the shoes item
- * @param {string} [outfitData.accessoryId] - ID of the accessory item
- * @param {number} outfitData.rating - Rating value (1-5)
  * @returns {Promise<Object>} - The saved outfit rating
  */
 export const saveOutfitRating = async (userId, outfitData) => {
@@ -82,12 +72,14 @@ export const saveOutfitRating = async (userId, outfitData) => {
     // Prepare the data to match the backend schema
     const payload = {
       userId,
-      ...outfitData
+      topId: outfitData.topId || null,
+      bottomId: outfitData.bottomId || null,
+      shoesId: outfitData.shoesId || null,
+      accessoryId: outfitData.accessoryId || null,
+      rating: outfitData.rating
     };
     
-    console.log("Saving outfit rating:", payload);
-    
-    const res = await fetch(`${BASE_URL}/outfits/rating`, {
+    const res = await fetch(`${BASE_URL}/outfits`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +90,8 @@ export const saveOutfitRating = async (userId, outfitData) => {
 
     // Check if response is ok before parsing JSON
     if (!res.ok) {
-      throw new Error(`Server responded with ${res.status}: ${res.statusText}`);
+      const errorText = await res.text();
+      throw new Error(`Server responded with ${res.status}: ${errorText}`);
     }
 
     const data = await res.json();

@@ -1,14 +1,15 @@
 import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../contexts/UserContext.jsx";
+import { useUser } from "../../contexts/UserContext";
 import { getWeatherBasedRecommendations, saveOutfitRating } from "../../services/outfitService.js";
 import { generateOutfitRecommendation } from "../../services/recommendationService.js";
 import getWeatherIcon from "../../utils/weatherIcons.js";
 import getClothingIcon from "../../utils/clothingIcons.js";
 import * as weatherService from "../Weather/weatherService.jsx";
 import "./OutfitRecommendation.css";
+import { jwtDecode } from 'jwt-decode';
 
 function OutfitRecommendation() {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [recommendationsData, setRecommendationsData] = useState(null);
   const [outfit, setOutfit] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -123,22 +124,18 @@ function OutfitRecommendation() {
       setLoading(true);
       setError(null);
       
-      // Use test userId for now
-      const testUserId = "65fb942d45c5b0b3e21cb6a0";
-      
       // Format weather data for the API call
       const weatherData = {
         temperature: weather.temperature,
         main: weather.condition,
-        humidity: weather.humidity || 65, // Default if not available
-        wind: weather.windSpeed || 4.5,    // Default if not available
-        precip_mm: weather.precipitation || 0.5, // Default if not available
-        uv: weather.uvIndex || 3.2              // Default if not available
+        humidity: weather.humidity || 65,
+        wind: weather.windSpeed || 4.5,
+        precip_mm: weather.precipitation || 0.5,
+        uv: weather.uvIndex || 3.2
       };
       
-      // Make the API call
-      const data = await getWeatherBasedRecommendations(weatherData, testUserId);
-      console.log("API response:", data);
+      // Make the API call with user ID
+      const data = await getWeatherBasedRecommendations(weatherData, user._id);
       
       setRecommendationsData(data);
       setLoading(false);
@@ -307,7 +304,7 @@ function OutfitRecommendation() {
       setRatingError(null);
       
       if (!user) {
-        setRatingError("You must be logged in to rate outfits");
+        setRatingError("Please sign in to save ratings");
         return;
       }
       
@@ -316,39 +313,36 @@ function OutfitRecommendation() {
         return;
       }
       
-      // Get the item IDs from the current outfit
+      // Create an object that matches the outfitSchema structure
       const outfitData = {
-        rating: starValue
+        rating: starValue,
+        userId: user._id
       };
       
       // Get top ID (use shirt if available, otherwise first top)
       const shirtItem = findShirtItem();
       const topItem = shirtItem || (outfit.topItems && outfit.topItems.length > 0 ? outfit.topItems[0] : null);
-      if (topItem) {
+      if (topItem && topItem.item && topItem.item._id) {
         outfitData.topId = topItem.item._id;
       }
       
       // Get bottom ID
-      if (outfit.bottomItem) {
+      if (outfit.bottomItem && outfit.bottomItem.item && outfit.bottomItem.item._id) {
         outfitData.bottomId = outfit.bottomItem.item._id;
       }
       
       // Get shoes ID
-      if (outfit.shoes) {
+      if (outfit.shoes && outfit.shoes._id) {
         outfitData.shoesId = outfit.shoes._id;
       }
       
-      // Get accessory ID (not implemented yet)
-      
-      // Use test userId for now (should be replaced with actual user ID)
-      const userId = user._id || "65fb942d45c5b0b3e21cb6a0";
-      
-      console.log("Sending outfit rating:", outfitData);
+      // Get jacket ID (as potential accessory)
+      if (outfit.jacket && outfit.jacket._id) {
+        outfitData.accessoryId = outfit.jacket._id;
+      }
       
       // Save the rating
-      const response = await saveOutfitRating(userId, outfitData);
-      
-      console.log("Rating saved:", response);
+      const response = await saveOutfitRating(user._id, outfitData);
       setRatingSuccess(true);
       
     } catch (err) {

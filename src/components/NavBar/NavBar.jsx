@@ -17,6 +17,7 @@ function NavBar() {
 
   return (
     <nav>
+<<<<<<< HEAD
     {user ? (
       // if YES user
       <>
@@ -36,5 +37,30 @@ function NavBar() {
   )}
 </nav>
 )};
+=======
+      {user ? (
+        // if YES user
+        <>
+        <ul> 
+          <li>Welcome, {user.username}</li>
+          <li><Link to="/">Dashboard</Link></li>
+          <li><Link to="/closet">My Closet</Link></li>
+          <li><Link to="/outfits">My Outfits</Link></li>
+          <li><Link to="/OutfitRecommendations">Recommendations</Link></li>
+          <li><button onClick={handleSignOut}>Sign Out</button></li>
+        </ul>
+        </>
+      ) : (
+        // if NO user
+        <ul>
+          <li><Link to="/OutfitRecommendations">Home/Recommendations</Link></li>
+          <li><Link to="/signin">Sign In</Link></li>
+          <li><Link to="/signup">Sign Up</Link></li>
+        </ul>
+      )}
+    </nav>
+  );
+}
+>>>>>>> d9712d9cd6661f872f1011544c581ea3e6339486
 
 export default NavBar;

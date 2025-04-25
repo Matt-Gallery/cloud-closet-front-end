@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 const SignInForm = () => {
   const navigate = useNavigate();
   const { setUser } = useUser();
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     username: "",
@@ -23,23 +24,35 @@ const SignInForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    
     try {
-      const signedInUser = await signIn(formData);
-      const token = signedInUser.token;
-      localStorage.setItem('token', token);
+      const response = await signIn(formData);
       
-      const decoded = jwtDecode(token);
-      setUser(decoded);
-      navigate("/closet");
+      if (!response || !response.token) {
+        throw new Error("Login failed - invalid response");
+      }
+      
+      localStorage.setItem('token', response.token);
+      
+      try {
+        const decoded = jwtDecode(response.token);
+        setUser(decoded);
+        navigate("/closet");
+      } catch (jwtError) {
+        console.error("JWT decode error:", jwtError);
+        throw new Error("Invalid token format");
+      }
     } catch (err) {
-      console.error(err);
-      alert("Sign-in failed. Try again.");
+      console.error("Sign-in error:", err);
+      setError(err.message || "Sign-in failed. Please try again.");
     }
   };
 
   return (
     <main>
       <h1>Sign In</h1>
+      {error && <div className="error-message">{error}</div>}
       <form autoComplete="off" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>

@@ -5,6 +5,7 @@ import React from "react";
 function Landing() {
   return (
     <main>
+    <h1>Hello Beauty!</h1>
     <h1>Welcome to Cloud Closet!</h1>
     <p>Please sign in or sign up to continue</p>
   

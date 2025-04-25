@@ -23,7 +23,7 @@ function NavBar() {
       <ul> 
         <li><Link to="/">My Profile</Link></li>
         <li><Link to="/closet">My Closet</Link></li>
-        <li><Link to="/OutfitRecommendation">Home/Recommendations</Link></li>
+        <li><Link to="/OutfitRecommendation">Recommendations</Link></li>
         <li><button onClick={handleSignOut}>Sign Out</button></li>
       </ul>
       </>

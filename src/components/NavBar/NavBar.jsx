@@ -30,7 +30,7 @@ function NavBar() {
             <Link to="/outfits">My Outfits</Link>
           </li>
           <li>
-            <Link to="/outfit/recommendations">Recommendations</Link>
+            <Link to="/OutfitRecommendation">Recommendations</Link>
           </li>
           <li>
             <button onClick={handleSignOut}>Sign Out</button>
@@ -39,7 +39,7 @@ function NavBar() {
       ) : (
         <ul>
           <li>
-            <Link to="/outfit/recommendations">Home/Recommendations</Link>
+            <Link to="/OutfitRecommendation">Home/Recommendations</Link>
           </li>
           <li><Link to="/Signin">Sign In</Link></li> 
           <li>

@@ -65,7 +65,7 @@ function Dashboard() {
       <section className="outfit-recommendations">
         <h2>Outfit Recommendations</h2>
         <p>Get personalized outfit recommendations based on current weather.</p>
-        <Link to="/outfit/recommendations" className="outfit-link">
+        <Link to="/OutfitRecommendation" className="outfit-link">
           Get Weather-Based Outfit Recommendations
         </Link>
       </section>

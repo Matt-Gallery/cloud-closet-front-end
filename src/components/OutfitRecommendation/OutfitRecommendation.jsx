@@ -180,22 +180,31 @@ function OutfitRecommendation() {
       });
     }
     
-    const bottoms = [];
-    if (recommendations.Pants) {
-      recommendations.Pants.forEach(item => {
-        bottoms.push({ category: "Pants", item });
-      });
-    }
-    if (recommendations.Skirt) {
-      recommendations.Skirt.forEach(item => {
-        bottoms.push({ category: "Skirt", item });
-      });
-    }
+    // Group bottoms by type to make cycling more logical
+    const dresses = [];
+    const pants = [];
+    const skirts = [];
+    
     if (recommendations.Dress) {
       recommendations.Dress.forEach(item => {
-        bottoms.push({ category: "Dress", item });
+        dresses.push({ category: "Dress", item });
       });
     }
+    
+    if (recommendations.Pants) {
+      recommendations.Pants.forEach(item => {
+        pants.push({ category: "Pants", item });
+      });
+    }
+    
+    if (recommendations.Skirt) {
+      recommendations.Skirt.forEach(item => {
+        skirts.push({ category: "Skirt", item });
+      });
+    }
+    
+    // Combine bottoms in a logical order: all dresses first, then pants and skirts
+    const bottoms = [...dresses, ...pants, ...skirts];
     
     const shoes = recommendations.Shoes || [];
     const jackets = recommendations.Jacket || [];
@@ -209,27 +218,104 @@ function OutfitRecommendation() {
   };
 
   const cycleTop = () => {
-    if (availableOptions.tops.length === 0) return;
+    if (availableOptions.tops.length <= 1) return;
     
-    const newIndex = (currentIndices.topIndex + 1) % availableOptions.tops.length;
-    setCurrentIndices({
-      ...currentIndices,
-      topIndex: newIndex
-    });
+    // Get current top information
+    const currentTopItem = outfit.topItems && outfit.topItems.length > 0 ? outfit.topItems[0] : null;
+    const currentIsCardigan = currentTopItem && currentTopItem.category === "Sweater" && 
+                             currentTopItem.item.subCategory === "Cardigan";
+    
+    // Separate shirts and sweaters for proper layering
+    const shirts = availableOptions.tops.filter(item => item.category === "Shirt");
+    const cardigans = availableOptions.tops.filter(item => 
+      item.category === "Sweater" && item.item.subCategory === "Cardigan");
+    const otherSweaters = availableOptions.tops.filter(item => 
+      item.category === "Sweater" && item.item.subCategory !== "Cardigan");
     
     // Update outfit with new top
     if (outfit) {
       const newOutfit = { ...outfit };
-      const topItem = availableOptions.tops[newIndex];
-      newOutfit.topItems = [topItem];
-      setOutfit(newOutfit);
+      let newTopItems = [];
+      
+      // Randomly decide what combination to show
+      const randomOption = Math.floor(Math.random() * 3);
+      
+      if (randomOption === 0 && shirts.length > 0) {
+        // Option 1: Just a shirt
+        const randomShirt = shirts[Math.floor(Math.random() * shirts.length)];
+        newTopItems = [randomShirt];
+        
+        // 50% chance to add a cardigan if available
+        if (cardigans.length > 0 && Math.random() > 0.5) {
+          const randomCardigan = cardigans[Math.floor(Math.random() * cardigans.length)];
+          newTopItems.push(randomCardigan);
+        }
+      } 
+      else if (randomOption === 1 && otherSweaters.length > 0) {
+        // Option 2: Just a non-cardigan sweater
+        const randomSweater = otherSweaters[Math.floor(Math.random() * otherSweaters.length)];
+        newTopItems = [randomSweater];
+      }
+      else if (randomOption === 2 && shirts.length > 0 && otherSweaters.length > 0) {
+        // Option 3: Shirt and sweater (not cardigan)
+        const randomShirt = shirts[Math.floor(Math.random() * shirts.length)];
+        const randomSweater = otherSweaters[Math.floor(Math.random() * otherSweaters.length)];
+        newTopItems = [randomShirt, randomSweater];
+      }
+      else if (shirts.length > 0) {
+        // Fallback to just a shirt if other options not available
+        const randomShirt = shirts[Math.floor(Math.random() * shirts.length)];
+        newTopItems = [randomShirt];
+      }
+      else if (otherSweaters.length > 0) {
+        // Fallback to just a non-cardigan sweater if shirts not available
+        const randomSweater = otherSweaters[Math.floor(Math.random() * otherSweaters.length)];
+        newTopItems = [randomSweater];
+      }
+      
+      // Only update if we found a valid combination
+      if (newTopItems.length > 0) {
+        newOutfit.topItems = newTopItems;
+        setOutfit(newOutfit);
+        
+        // Update top index - not really needed since we're randomizing anyway
+        // but kept for state consistency
+        const newTopIndex = availableOptions.tops.findIndex(
+          item => item.category === newTopItems[0].category && 
+                 item.item._id === newTopItems[0].item._id
+        );
+        
+        if (newTopIndex !== -1) {
+          setCurrentIndices(prev => ({
+            ...prev,
+            topIndex: newTopIndex
+          }));
+        }
+      }
     }
   };
 
   const cycleBottom = () => {
-    if (availableOptions.bottoms.length === 0) return;
+    if (availableOptions.bottoms.length <= 1) return;
     
-    const newIndex = (currentIndices.bottomIndex + 1) % availableOptions.bottoms.length;
+    // Find all indices of the same category as current bottom
+    const currentCategory = outfit.bottomItem?.category;
+    const sameCategory = availableOptions.bottoms
+      .map((item, index) => item.category === currentCategory ? index : -1)
+      .filter(index => index !== -1 && index !== currentIndices.bottomIndex);
+    
+    // If we have items of the same category, prioritize those
+    let newIndex;
+    if (sameCategory.length > 0) {
+      // Choose random item from same category
+      newIndex = sameCategory[Math.floor(Math.random() * sameCategory.length)];
+    } else {
+      // Otherwise get a random index different from the current one
+      do {
+        newIndex = Math.floor(Math.random() * availableOptions.bottoms.length);
+      } while (newIndex === currentIndices.bottomIndex);
+    }
+    
     setCurrentIndices({
       ...currentIndices,
       bottomIndex: newIndex
@@ -239,15 +325,43 @@ function OutfitRecommendation() {
     if (outfit) {
       const newOutfit = { ...outfit };
       const bottomItem = availableOptions.bottoms[newIndex];
+      const currentBottomCategory = outfit.bottomItem?.category;
+      const newBottomCategory = bottomItem.category;
+      
+      // Check if transitioning from a dress to pants/skirt
+      if (currentBottomCategory === "Dress" && newBottomCategory !== "Dress") {
+        // If moving from a dress to pants/skirt, we need to add a top
+        if (availableOptions.tops.length > 0 && (!newOutfit.topItems || newOutfit.topItems.length === 0)) {
+          // Add random available top
+          const randomTopIndex = Math.floor(Math.random() * availableOptions.tops.length);
+          newOutfit.topItems = [availableOptions.tops[randomTopIndex]];
+          // Update top index
+          setCurrentIndices(prev => ({
+            ...prev,
+            topIndex: randomTopIndex
+          }));
+        }
+      }
+      
+      // If transitioning to a dress, clear tops
+      if (newBottomCategory === "Dress") {
+        newOutfit.topItems = [];
+      }
+      
       newOutfit.bottomItem = bottomItem;
       setOutfit(newOutfit);
     }
   };
 
   const cycleShoes = () => {
-    if (availableOptions.shoes.length === 0) return;
+    if (availableOptions.shoes.length <= 1) return;
     
-    const newIndex = (currentIndices.shoesIndex + 1) % availableOptions.shoes.length;
+    // Get a random index different from the current one
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * availableOptions.shoes.length);
+    } while (newIndex === currentIndices.shoesIndex);
+    
     setCurrentIndices({
       ...currentIndices,
       shoesIndex: newIndex
@@ -262,9 +376,14 @@ function OutfitRecommendation() {
   };
 
   const cycleJacket = () => {
-    if (availableOptions.jackets.length === 0) return;
+    if (availableOptions.jackets.length <= 1) return;
     
-    const newIndex = (currentIndices.jacketIndex + 1) % availableOptions.jackets.length;
+    // Get a random index different from the current one
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * availableOptions.jackets.length);
+    } while (newIndex === currentIndices.jacketIndex);
+    
     setCurrentIndices({
       ...currentIndices,
       jacketIndex: newIndex

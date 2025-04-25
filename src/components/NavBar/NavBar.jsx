@@ -21,7 +21,7 @@ function NavBar() {
       // if YES user
       <>
       <ul> 
-        <li><Link to="/">My Profile</Link></li>
+        <li><Link to="/profile">My Profile</Link></li>
         <li><Link to="/closet">My Closet</Link></li>
         <li><Link to="/OutfitRecommendation">Home/Recommendations</Link></li>
         <li><button onClick={handleSignOut}>Sign Out</button></li>

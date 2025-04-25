@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import NavBar from "./components/NavBar/NavBar.jsx";
@@ -17,7 +18,11 @@ import "./App.css";
 
 const App = () => {
   const { user } = useContext(UserContext);
+  const location = useLocation();
   const [weather, setWeather] = useState(null);
+
+  const hideNavOn = ["/", "/signin", "/signup"];
+  const hideNav = hideNavOn.includes(location.pathname);
 
   //this step auto-fetches the weather based on location
   useEffect(() => {
@@ -53,21 +58,17 @@ const App = () => {
     setWeather(newWeather);
   };
 
-  return (
+   return (
     <>
-      <NavBar />
-
+      {!hideNav && <NavBar />} 
+      
       <Routes>
-        <Route
-          path="/"
-          element={user ? <Dashboard /> : <Landing />}
-        />
+        <Route path="/" element={user ? <Dashboard /> : <Landing />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />
-        <Route path="/add-item" element={<AddItem />} />
-        <Route path="/closet" element={<ClosetForm />} />
-        <Route path="/outfit/recommendations" element={<OutfitRecommendation />} />
-        <Route path="/closetForm" element={<ClosetForm />} />
+        <Route path="/OutfitRecommendation" element={<OutfitRecommendation />} />
+        <Route path="/ClosetForm" element={<ClosetForm />} />
+
       </Routes>
     </>
   );

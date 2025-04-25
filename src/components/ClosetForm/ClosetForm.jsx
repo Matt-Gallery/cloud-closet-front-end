@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import AddItem from "../AddItem/AddItem";
 import { useUser } from "../../contexts/UserContext";
 import { getUserOutfits } from "../../services/outfitService";
-import { updateItem, deleteItem } from "../../services/itemService";
+import { updateItem, deleteItem, getUserItems } from "../../services/itemService";
 import getClothingIcon from "../../utils/clothingIcons.jsx";
 import './ClosetForm.css';
 
@@ -50,30 +50,28 @@ const ClosetForm = () => {
     // Fetch all items when component mounts
     useEffect(() => {
         const fetchItems = async () => {
+            if (!userId) return;
+            
             try {
                 setLoading(true);
-                const response = await fetch("http://localhost:3001/api/items");
+                const response = await getUserItems(userId);
+                console.log("Items received for user:", response);
                 
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log("Items received:", data);
-                
-                // Check the structure of your data
-                // If data is an object with an items array, adjust accordingly
-                const items = Array.isArray(data) ? data : data.items || [];
+                // Ensure we're handling both array and object responses
+                const items = Array.isArray(response) ? response : 
+                              (response && response.items ? response.items : []);
+                              
                 setClosetItems(items);
             } catch (error) {
                 console.error("Failed to fetch items:", error);
+                setClosetItems([]); // Set to empty array on error
             } finally {
                 setLoading(false);
             }
         };
 
         fetchItems();
-    }, []);
+    }, [userId]);
 
     // Fetch saved outfits
     useEffect(() => {
@@ -202,7 +200,9 @@ const ClosetForm = () => {
         }
         
         // Look up the item in the closetItems array
-        return closetItems.find(item => item._id === itemId) || null;
+        // Add safety check to ensure closetItems is an array
+        return Array.isArray(closetItems) ? 
+            (closetItems.find(item => item._id === itemId) || null) : null;
     };
     
     // Filter items by category only - used for deriving subcategories and colors

@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext.jsx";
+import "./MyProfile.css";
+
 
 const MyProfile = () => {
   const navigate = useNavigate();
@@ -56,9 +58,9 @@ const MyProfile = () => {
   };
 
   return (
-    <main>
+    <main className="profile-container">
       <h1>Edit Profile</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="profile-form" onSubmit={handleSubmit}>
         <label>Username:</label>
         <input
           type="text"

@@ -55,7 +55,6 @@ const ClosetForm = () => {
             try {
                 setLoading(true);
                 const response = await getUserItems(userId);
-                console.log("Items received for user:", response);
                 
                 // Ensure we're handling both array and object responses
                 const items = Array.isArray(response) ? response : 
@@ -63,7 +62,6 @@ const ClosetForm = () => {
                               
                 setClosetItems(items);
             } catch (error) {
-                console.error("Failed to fetch items:", error);
                 setClosetItems([]); // Set to empty array on error
             } finally {
                 setLoading(false);
@@ -85,7 +83,6 @@ const ClosetForm = () => {
                 const data = await getUserOutfits(userId);
                 setOutfits(data);
             } catch (err) {
-                console.error('Error fetching outfits:', err);
                 setOutfitsError('Failed to load outfits. Please try again later.');
             } finally {
                 setOutfitsLoading(false);
@@ -93,21 +90,14 @@ const ClosetForm = () => {
         };
 
         fetchOutfits();
-    }, [userId]); // Use userId instead of user object
+    }, [userId]);
 
     const addItemToCloset = async (newItem) => {
         if (!userId) {
-            console.error("Cannot add item: No user ID available");
             return;
         }
         
         try {
-            // Log precipitation values before sending to backend
-            console.log("Item precipitation values before sending:", {
-                precipType: newItem.weatherType && newItem.weatherType[0] ? newItem.weatherType[0].precipType : 'none',
-                precipIntensity: newItem.weatherType && newItem.weatherType[0] ? newItem.weatherType[0].precipIntensity : 'none'
-            });
-            
             const itemWithUser = {
                 name: newItem.name,                
                 category: newItem.category,
@@ -116,7 +106,6 @@ const ClosetForm = () => {
                 userId: userId,
                 weatherType: newItem.weatherType || [],
             };
-            console.log("Full payload sending to backend:", itemWithUser);
 
             const res = await fetch("http://localhost:3001/api/items", {
                 method: "POST",
@@ -125,36 +114,24 @@ const ClosetForm = () => {
             });
 
             const savedItem = await res.json();
-            console.log("Saved item from server:", savedItem);
             setClosetItems((prev) => [...prev, savedItem]);
         } catch (err) {
-            console.error("Error adding item:", err);
+            // Handle error silently
         }
     };
     
     const updateClosetItem = async (itemId, updatedItemData) => {
         if (!userId) {
-            console.error("Cannot update item: No user ID available");
             return;
         }
         
         try {
-            // Log precipitation values before updating
-            console.log("Item precipitation values before update:", {
-                precipType: updatedItemData.weatherType && updatedItemData.weatherType[0] ? updatedItemData.weatherType[0].precipType : 'none',
-                precipIntensity: updatedItemData.weatherType && updatedItemData.weatherType[0] ? updatedItemData.weatherType[0].precipIntensity : 'none'
-            });
-            
             const itemWithUser = {
                 ...updatedItemData,
                 userId: userId,
             };
             
-            console.log("Full update payload:", itemWithUser);
-            
             const updatedItem = await updateItem(itemId, itemWithUser);
-            
-            console.log("Item after update from server:", updatedItem);
             
             // Update the local state with the updated item
             setClosetItems((prev) => 
@@ -166,13 +143,12 @@ const ClosetForm = () => {
             setItemToEdit(null);
             
         } catch (err) {
-            console.error("Error updating item:", err);
+            // Handle error silently
         }
     };
     
     const deleteClosetItem = async (itemId) => {
         if (!userId) {
-            console.error("Cannot delete item: No user ID available");
             return;
         }
         
@@ -189,7 +165,7 @@ const ClosetForm = () => {
             setItemToEdit(null);
             
         } catch (err) {
-            console.error("Error deleting item:", err);
+            // Handle error silently
         }
     };
     

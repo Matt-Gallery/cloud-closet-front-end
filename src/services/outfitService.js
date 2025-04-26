@@ -48,7 +48,6 @@ export const getWeatherBasedRecommendations = async (weatherData, userId) => {
 
     return data;
   } catch (err) {
-    console.log(err);
     throw new Error(err.message || "Failed to get outfit recommendations");
   }
 };
@@ -125,7 +124,6 @@ export const saveOutfitRating = async (userId, outfitData) => {
 
     return data;
   } catch (err) {
-    console.log(err);
     throw new Error(err.message || "Failed to save outfit rating");
   }
 };
@@ -157,7 +155,6 @@ export const getUserRecommendations = async (userId) => {
 
     return data;
   } catch (err) {
-    console.log(err);
     throw new Error(err.message || "Failed to get user recommendations");
   }
 };
@@ -170,21 +167,11 @@ export const getUserRecommendations = async (userId) => {
 export const getUserOutfits = async (userId) => {
   try {
     if (!userId) {
-      console.log("getUserOutfits called without a userId");
       throw new Error("User ID is required to fetch outfits");
     }
-
-    console.log(`Fetching outfits for user: ${userId}`);
     
     const url = `${BASE_URL}/outfits/${userId}`;
-    console.log(`Request URL: ${url}`);
-    
     const token = localStorage.getItem("token");
-    if (!token) {
-      console.log("No auth token found in localStorage");
-    } else {
-      console.log("Auth token available (not displayed for security)");
-    }
     
     const res = await fetch(url, {
       method: "GET",
@@ -196,30 +183,24 @@ export const getUserOutfits = async (userId) => {
 
     // Check if response is ok before parsing JSON
     if (!res.ok) {
-      console.log(`HTTP Error: ${res.status} ${res.statusText}`);
       throw new Error(`Server responded with ${res.status}: ${res.statusText}`);
     }
 
     const text = await res.text();
-    console.log(`Raw response: ${text.substring(0, 100)}${text.length > 100 ? '...' : ''}`);
     
     // Check if response is empty
     if (!text) {
-      console.log("Empty response from server");
       return [];
     }
     
     const data = JSON.parse(text);
-    console.log(`Parsed outfits:`, data);
 
     if (data.err) {
-      console.log(`Error in response data: ${data.err}`);
       throw new Error(data.err);
     }
 
     return Array.isArray(data) ? data : [];
   } catch (err) {
-    console.log(`Error in getUserOutfits:`, err);
     throw new Error(err.message || "Failed to get user outfits");
   }
 };

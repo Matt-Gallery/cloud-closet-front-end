@@ -113,11 +113,8 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
     };
 
     const handlePrecipChange = (precipValues) => {
-        console.log("Precipitation values received:", precipValues);
-        
         // Make sure we're receiving valid precipitation values
         if (!precipValues || !precipValues.precipType || !precipValues.precipIntensity) {
-            console.error("Invalid precipitation values:", precipValues);
             return;
         }
         
@@ -131,7 +128,6 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
                 }]
             };
             
-            console.log("Updated form data:", updatedFormData);
             return updatedFormData;
         });
     };
@@ -220,12 +216,10 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
 
     const handleNoPrecipChange = (e) => {
         const isChecked = e.target.checked;
-        console.log(`No Precipitation checkbox changed: ${isChecked}`);
         setIsNoPrecip(isChecked);
         
         if (isChecked) {
             // When "No precipitation" is checked, clear the precipitation values
-            console.log("Clearing precipitation values");
             setFormData(prev => {
                 const updated = {
                     ...prev,
@@ -235,13 +229,11 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
                         precipIntensity: ""
                     }]
                 };
-                console.log("Updated form data (precipitation cleared):", updated);
                 return updated;
             });
         } else {
             // Set default precipitation values when checkbox is unchecked
             // Use heavy rain as default when unchecking to ensure it's not just defaulting to light
-            console.log("Setting default precipitation to heavy rain");
             setFormData(prev => {
                 const updated = {
                     ...prev,
@@ -251,7 +243,6 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
                         precipIntensity: "heavy" // Explicitly set to heavy to test
                     }]
                 };
-                console.log("Updated form data (precipitation defaults set):", updated);
                 return updated;
             });
         }
@@ -259,9 +250,6 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        // Log the final form data before submission
-        console.log("Submitting form data:", formData);
         
         if (isEditMode && itemToEdit) {
             onUpdate(itemToEdit._id, formData);
@@ -488,12 +476,6 @@ const AddItem = ({ onAdd, onUpdate, onDelete, itemToEdit, isEditMode, cancelEdit
                                 </div>
                             </div>
                             <p className="precip-range-help">What precipitation conditions is this item suitable for?</p>
-                            {/* Log current precipitation values */}
-                            {console.log("Current precipitation values:", {
-                                type: formData.weatherType[0].precipType,
-                                intensity: formData.weatherType[0].precipIntensity,
-                                disabled: isNoPrecip
-                            })}
                             <PrecipRangeSlider 
                                 precipType={formData.weatherType[0].precipType}
                                 precipIntensity={formData.weatherType[0].precipIntensity}

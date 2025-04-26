@@ -16,14 +16,12 @@ const PrecipRangeSlider = ({ precipType, precipIntensity, onChange, disabled }) 
   const getIndexFromTypeAndIntensity = (type, intensity) => {
     if (!type || !intensity) return 0;
     const index = PRECIP_TYPES.findIndex(p => p.type === type && p.intensity === intensity);
-    console.log(`Finding index for type=${type}, intensity=${intensity}: ${index}`);
     return index >= 0 ? index : 0;
   };
 
   // Initialize selection based on passed props
   const [selectedIndex, setSelectedIndex] = useState(() => {
     const index = getIndexFromTypeAndIntensity(precipType, precipIntensity);
-    console.log(`Initial selected index: ${index} from type=${precipType}, intensity=${precipIntensity}`);
     return index;
   });
   const [dragging, setDragging] = useState(false);
@@ -61,7 +59,6 @@ const PrecipRangeSlider = ({ precipType, precipIntensity, onChange, disabled }) 
       // Use the current value from the ref to ensure we have the latest index
       const currentIndex = selectedIndexRef.current;
       const precip = PRECIP_TYPES[currentIndex];
-      console.log(`Mouse up - Firing onChange with: ${precip.type}, ${precip.intensity}, index=${currentIndex}`);
       onChange({
         precipType: precip.type,
         precipIntensity: precip.intensity
@@ -80,7 +77,6 @@ const PrecipRangeSlider = ({ precipType, precipIntensity, onChange, disabled }) 
     const x = e.clientX - rect.left;
     const percent = Math.max(0, Math.min(100, (x / rect.width) * 100));
     const newIndex = percentToIndex(percent);
-    console.log(`Updating index from ${selectedIndex} to ${newIndex} at position ${percent}%`);
     setSelectedIndex(newIndex);
   };
 
@@ -98,19 +94,15 @@ const PrecipRangeSlider = ({ precipType, precipIntensity, onChange, disabled }) 
 
   // Update internal state when props change
   useEffect(() => {
-    console.log(`Props changed: type=${precipType}, intensity=${precipIntensity}, disabled=${disabled}`);
     const newIndex = getIndexFromTypeAndIntensity(precipType, precipIntensity);
-    console.log(`Setting selected index to: ${newIndex}`);
     setSelectedIndex(newIndex);
   }, [precipType, precipIntensity]);
 
   // Handle individual marker clicks
   const handleMarkerClick = (index) => {
     if (disabled) return;
-    console.log(`Marker clicked: index=${index}`);
     setSelectedIndex(index);
     const precip = PRECIP_TYPES[index];
-    console.log(`Firing onChange with: ${precip.type}, ${precip.intensity}`);
     onChange({
       precipType: precip.type,
       precipIntensity: precip.intensity
@@ -134,15 +126,6 @@ const PrecipRangeSlider = ({ precipType, precipIntensity, onChange, disabled }) 
     }
     return label;
   };
-
-  // Log current state for debugging
-  useEffect(() => {
-    console.log(`Current PrecipRangeSlider state: selectedIndex=${selectedIndex}, disabled=${disabled}`);
-    if (selectedIndex >= 0 && selectedIndex < PRECIP_TYPES.length) {
-      const precip = PRECIP_TYPES[selectedIndex];
-      console.log(`Selected precipitation: ${precip.type}, ${precip.intensity}`);
-    }
-  }, [selectedIndex, disabled]);
 
   return (
     <div className={`precip-range-slider ${disabled ? 'precip-range-disabled' : ''}`}>

@@ -1,5 +1,10 @@
 const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/users`;
 
+/**
+ * Fetches all users from the backend
+ * @returns {Promise<Array>} - Array of all user objects
+ * @throws {Error} - If the API request fails or authentication is invalid
+ */
 export const index = async () => {
   try {
     const res = await fetch(`${BASE_URL}`, {
@@ -18,11 +23,16 @@ export const index = async () => {
 
     return data;
   } catch (err) {
-    console.log(err);
-    throw new Error(err);
+    throw new Error(err.message || "Failed to fetch users");
   }
 };
 
+/**
+ * Fetches a specific user's details by their ID
+ * @param {string} userId - The ID of the user to fetch
+ * @returns {Promise<Object>} - The user's profile data
+ * @throws {Error} - If the user ID is invalid or the API request fails
+ */
 export const show = async (userId) => {
   try {
     const res = await fetch(`${BASE_URL}/${userId}`, {
@@ -41,7 +51,6 @@ export const show = async (userId) => {
 
     return data;
   } catch (err) {
-    console.log(err);
-    throw new Error(err);
+    throw new Error(err.message || "Failed to fetch user");
   }
 };

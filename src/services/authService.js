@@ -1,5 +1,14 @@
+/**
+ * Base URL for authentication endpoints
+ */
 const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/auth`;
 
+/**
+ * User registration service
+ * @param {Object} formData - User registration data (email, password, name)
+ * @returns {Promise<Object>} - User payload from the JWT token
+ * @throws {Error} - If registration fails or token is invalid
+ */
 export const signUp = async (formData) => {
   try {
     const res = await fetch(`${BASE_URL}/signup`, {
@@ -9,7 +18,6 @@ export const signUp = async (formData) => {
     });
 
     const data = await res.json();
-    console.log("Data: ", data);
 
     if (data.err) {
       throw new Error(data.err);
@@ -22,11 +30,16 @@ export const signUp = async (formData) => {
     localStorage.setItem("token", data.token);
     return JSON.parse(atob(data.token.split(".")[1])).payload;
   } catch (err) {
-    console.log(err);
-    throw new Error(err);
+    throw new Error(err.message || "Registration failed");
   }
 };
 
+/**
+ * User authentication service
+ * @param {Object} formData - Login credentials (email, password)
+ * @returns {Promise<Object>} - User data with authentication token
+ * @throws {Error} - If login fails or token is missing
+ */
 export const signIn = async (formData) => {
   try {
     const res = await fetch(`${BASE_URL}/login`, {
@@ -51,7 +64,6 @@ export const signIn = async (formData) => {
     localStorage.setItem("token", data.token);
     return data; // Return the entire data object, not just the parsed token payload
   } catch (err) {
-    console.error("❌ Sign-In Error:", err);
-    throw err; // Rethrow the error so it can be caught by the component
+    throw new Error(err.message || "Authentication failed");
   }
 };

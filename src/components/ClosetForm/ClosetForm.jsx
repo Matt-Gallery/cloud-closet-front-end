@@ -102,14 +102,21 @@ const ClosetForm = () => {
         }
         
         try {
+            // Log precipitation values before sending to backend
+            console.log("Item precipitation values before sending:", {
+                precipType: newItem.weatherType && newItem.weatherType[0] ? newItem.weatherType[0].precipType : 'none',
+                precipIntensity: newItem.weatherType && newItem.weatherType[0] ? newItem.weatherType[0].precipIntensity : 'none'
+            });
+            
             const itemWithUser = {
                 name: newItem.name,                
                 category: newItem.category,
                 subCategory: newItem.subCategory,   
                 color: newItem.color,
-                userId: userId, 
+                userId: userId,
+                weatherType: newItem.weatherType || [],
             };
-            console.log("sending to backend", itemWithUser);
+            console.log("Full payload sending to backend:", itemWithUser);
 
             const res = await fetch("http://localhost:3001/api/items", {
                 method: "POST",
@@ -118,6 +125,7 @@ const ClosetForm = () => {
             });
 
             const savedItem = await res.json();
+            console.log("Saved item from server:", savedItem);
             setClosetItems((prev) => [...prev, savedItem]);
         } catch (err) {
             console.error("Error adding item:", err);
@@ -131,12 +139,22 @@ const ClosetForm = () => {
         }
         
         try {
+            // Log precipitation values before updating
+            console.log("Item precipitation values before update:", {
+                precipType: updatedItemData.weatherType && updatedItemData.weatherType[0] ? updatedItemData.weatherType[0].precipType : 'none',
+                precipIntensity: updatedItemData.weatherType && updatedItemData.weatherType[0] ? updatedItemData.weatherType[0].precipIntensity : 'none'
+            });
+            
             const itemWithUser = {
                 ...updatedItemData,
                 userId: userId,
             };
             
+            console.log("Full update payload:", itemWithUser);
+            
             const updatedItem = await updateItem(itemId, itemWithUser);
+            
+            console.log("Item after update from server:", updatedItem);
             
             // Update the local state with the updated item
             setClosetItems((prev) => 

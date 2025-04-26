@@ -1,0 +1,164 @@
+.temp-range-slider {
+  width: 100%;
+  padding: 14px 15px;
+  margin: 14px 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.temp-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 0 5px;
+}
+
+.temp-labels span {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.temp-slider {
+  position: relative;
+  height: 28px;
+  padding: 7px 5px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.temp-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  right: 5px;
+  height: 4px;
+  background: linear-gradient(to right, #3498db, #e74c3c);
+  border-radius: 2px;
+}
+
+.temp-range {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+
+.temp-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1.5px solid #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+  z-index: 2;
+}
+
+.temp-handle:hover, .temp-handle:active {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.temp-handle.min-handle {
+  background-color: #3498db;
+}
+
+.temp-handle.max-handle {
+  background-color: #e74c3c;
+}
+
+.temp-markers {
+  position: absolute;
+  top: 100%;
+  left: 5px;
+  right: 5px;
+  height: 16px;
+  overflow: visible;
+}
+
+.temp-marker {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.2);
+  transform: translateX(-50%);
+}
+
+.temp-marker:nth-child(4n+1) {
+  height: 7px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.temp-marker-label {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  white-space: nowrap;
+  color: #666;
+  font-weight: 500;
+}
+
+.temp-marker:first-child .temp-marker-label {
+  left: 0;
+  transform: none;
+  text-align: left;
+}
+
+.temp-marker:last-child .temp-marker-label {
+  left: auto;
+  right: 0;
+  transform: none;
+  text-align: right;
+}
+
+.temp-display {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  padding: 0 5px;
+}
+
+/* Prevent text selection when dragging */
+.temp-range-slider {
+  user-select: none;
+}
+
+/* Add styles for the disabled state */
+.temp-range-disabled .temp-track {
+  opacity: 0.4;
+  background: #cccccc;
+}
+
+.temp-range-disabled .temp-range {
+  opacity: 0.3;
+}
+
+.temp-range-disabled .temp-handle {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.temp-range-disabled .temp-marker {
+  opacity: 0.4;
+}
+
+.temp-range-disabled .temp-marker-label {
+  opacity: 0.4;
+}
+
+.temp-range-disabled .temp-display {
+  font-style: italic;
+  font-weight: 600;
+  color: #666;
+} 

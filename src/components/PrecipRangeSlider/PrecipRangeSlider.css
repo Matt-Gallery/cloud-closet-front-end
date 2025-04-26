@@ -1,0 +1,161 @@
+.precip-range-slider {
+  width: 100%;
+  padding: 14px 15px;
+  margin: 14px 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.precip-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 0 5px;
+}
+
+.precip-labels span {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.precip-slider {
+  position: relative;
+  height: 28px;
+  padding: 7px 5px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.precip-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  right: 5px;
+  height: 4px;
+  background: linear-gradient(to right, #4682B4, #ADD8E6, #87CEEB, #B0E0E6, #F0F8FF, #E0FFFF);
+  border-radius: 2px;
+}
+
+.precip-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #3498db;
+  border: 1.5px solid #333;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+  z-index: 2;
+}
+
+.precip-handle:hover, .precip-handle:active {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.precip-markers {
+  position: absolute;
+  top: 100%;
+  left: 5px;
+  right: 5px;
+  height: 48px;
+  overflow: visible;
+}
+
+.precip-marker {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 7px;
+  background-color: rgba(0, 0, 0, 0.4);
+  transform: translateX(-50%);
+}
+
+.precip-marker.selected {
+  background-color: #3498db;
+  height: 10px;
+}
+
+.precip-marker-label {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  text-align: center;
+  color: #666;
+  font-weight: 500;
+  width: max-content;
+}
+
+/* Stacked label styling */
+.stacked-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.intensity-label {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.type-label {
+  font-weight: 400;
+}
+
+/* Adjust spacing for first and last markers */
+.precip-marker:first-child .precip-marker-label {
+  transform: translateX(0);
+  left: 0;
+  text-align: left;
+}
+
+.precip-marker:last-child .precip-marker-label {
+  transform: translateX(-100%);
+  left: 100%;
+  text-align: right;
+}
+
+.precip-display {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  padding: 0 5px;
+}
+
+/* Prevent text selection when dragging */
+.precip-range-slider {
+  user-select: none;
+}
+
+/* Add styles for the disabled state */
+.precip-range-disabled .precip-track {
+  opacity: 0.4;
+  background: #cccccc;
+}
+
+.precip-range-disabled .precip-handle {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.precip-range-disabled .precip-marker {
+  opacity: 0.4;
+}
+
+.precip-range-disabled .precip-marker-label {
+  opacity: 0.4;
+}
+
+.precip-range-disabled .precip-display {
+  font-style: italic;
+  font-weight: 600;
+  color: #666;
+} 

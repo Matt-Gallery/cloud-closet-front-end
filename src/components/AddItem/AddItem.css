@@ -1,0 +1,219 @@
+/* General form styling */
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Create a two-column layout */
+.form-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form-left-column {
+  flex: 0.3; /* 30% width */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-right-column {
+  flex: 0.7; /* 70% width */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  width: 100%;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  flex: 1;
+}
+
+button[type="submit"]:hover {
+  background-color: #0069d9;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  margin-left: 10px;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: white;
+  margin-left: 10px;
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+}
+
+/* Temperature Range Section */
+.temp-range-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.temp-range-section label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.temp-range-help {
+  margin: 0 0 10px 0;
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Styling for the temperature range header */
+.temp-range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.any-temp-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.any-temp-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.any-temp-checkbox label {
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Precipitation Range Section */
+.precip-range-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.precip-range-section label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.precip-range-help {
+  margin: 0 0 10px 0;
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Styling for the precipitation range header */
+.precip-range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.no-precip-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.no-precip-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.no-precip-checkbox label {
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .form-content {
+    flex-direction: column;
+  }
+  
+  .form-left-column, .form-right-column {
+    flex: 1 1 100%;
+  }
+} 

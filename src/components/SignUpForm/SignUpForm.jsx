@@ -14,8 +14,8 @@ function SignUpForm() {
     password: "",
     passwordConf: "",
     name: "",
+    age: "",
     gender: "",
-    location: ""
   });
 
   const handleChange = (e) => {
@@ -36,7 +36,22 @@ function SignUpForm() {
         return;
       }
       
-      const newUser = await signUp(formData);
+      // Process the name field into firstName and lastName
+      const nameParts = formData.name.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+      
+      // Create a new object with the backend schema format
+      const userData = {
+        username: formData.username,
+        password: formData.password, // Will be hashed on the backend
+        firstName: firstName,
+        lastName: lastName,
+        age: formData.age ? parseInt(formData.age, 10) : undefined,
+        gender: formData.gender,
+      };
+      
+      const newUser = await signUp(userData);
       setUser(newUser);
       navigate("/closet");
     } catch (err) {
@@ -98,6 +113,22 @@ function SignUpForm() {
             value={formData.name}
             onChange={handleChange} 
             required 
+            placeholder="First name (and last name if applicable)"
+          />
+
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="age">Age</label>
+          <input 
+            type="number" 
+            id="age"
+            name="age" 
+            value={formData.age}
+            onChange={handleChange} 
+            min="1"
+            max="120"
+            placeholder="Optional"
           />
         </div>
 

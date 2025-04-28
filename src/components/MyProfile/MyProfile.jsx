@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext.jsx";
+import { UserContext, useUser } from "../../contexts/UserContext.jsx";
 import "./MyProfile.css";
 
 const MyProfile = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useUser();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -16,32 +17,66 @@ const MyProfile = () => {
     location: ""
   });
 
+  // Use user data from context for initial values
+  useEffect(() => {
+    console.log("Current user in context:", user);
+    if (user) {
+      // Combine firstName and lastName into name
+      const fullName = user.firstName 
+        ? (user.lastName ? `${user.firstName} ${user.lastName}` : user.firstName)
+        : user.name || "";
+        
+      setFormData({
+        username: user.username || "",
+        password: "",
+        name: fullName,
+        gender: user.gender || "",
+        location: user.location || ""
+      });
+      setLoading(false);
+    }
+  }, [user]);
+
+  // Fallback to fetching from API if context data is insufficient
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:3001/auth/profile", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        
-        if (!res.ok) {
-          throw new Error(`Failed to fetch profile: ${res.status}`);
+      if (!user || !user.username) {
+        try {
+          setLoading(true);
+          const token = localStorage.getItem("token");
+          const res = await fetch("http://localhost:3001/auth/profile", {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
+          if (!res.ok) {
+            throw new Error(`Failed to fetch profile: ${res.status}`);
+          }
+          
+          const data = await res.json();
+          console.log("Fetched user data:", data);
+          
+          // Combine firstName and lastName into name
+          const fullName = data.firstName 
+            ? (data.lastName ? `${data.firstName} ${data.lastName}` : data.firstName)
+            : data.name || "";
+            
+          setFormData({
+            username: data.username || "",
+            password: "",
+            name: fullName,
+            gender: data.gender || "",
+            location: data.location || ""
+          });
+        } catch (err) {
+          console.error("Error fetching profile:", err);
+          setError(err.message || "Failed to load profile data");
+        } finally {
+          setLoading(false);
         }
-        
-        const data = await res.json();
-        setFormData({
-          username: data.username || "",
-          password: "",
-          name: data.name || "",
-          gender: data.gender || "",
-          location: data.location || ""
-        });
-      } catch (err) {
-        setError(err.message || "Failed to load profile data");
       }
     };
     fetchUser();
-  }, []);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +88,28 @@ const MyProfile = () => {
     setError("");
     
     try {
+      // Split name into firstName and lastName
+      const nameParts = formData.name.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+      
+      // Create data object for backend
+      const profileData = {
+        ...formData,
+        firstName,
+        lastName
+      };
+      
+      // Don't send empty password
+      if (!profileData.password) {
+        delete profileData.password;
+      }
+      
+      // Don't send the combined name field (backend expects firstName/lastName)
+      delete profileData.name;
+      
+      console.log("Sending profile data:", profileData);
+      
       const token = localStorage.getItem("token");
       const res = await fetch("http://localhost:3001/auth/profile", {
         method: "PUT",
@@ -60,7 +117,7 @@ const MyProfile = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(profileData)
       });
       
       if (!res.ok) {
@@ -68,12 +125,18 @@ const MyProfile = () => {
       }
       
       const updatedUser = await res.json();
+      console.log("Updated user:", updatedUser);
       setUser(updatedUser);
-      navigate("/dashboard");
+      navigate("/OutfitRecommendation");
     } catch (err) {
+      console.error("Error updating profile:", err);
       setError(err.message || "Failed to update profile");
     }
   };
+
+  if (loading) {
+    return <div className="loading-profile">Loading profile data...</div>;
+  }
 
   return (
     <div className="profile-container">

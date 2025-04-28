@@ -628,247 +628,249 @@ function OutfitRecommendation() {
   const bothTopLayers = hasBothShirtAndSweater();
 
   return (
-    <div className="outfit-recommendation-container">
-      <div className="outfit-header">
-        <h1>Outfit Generated</h1>
-      </div>
-      
-      <div className="outfit-content">
-        <div className="weather-section">
-          {weather && (
-            <div className="weather-info">
-              <div className="location">{weather.location}</div>
-              <div className="weather-details">
-                <div>{weather.temperature}°F</div>
-                <div className="weather-condition">
-                  <span className="weather-icon">{getWeatherIcon(weather.condition)}</span>
-                  <span className="weather-text">{weather.condition}</span>
-                </div>
-                <div className="weather-extended">
-                  <div>Precipitation: {weather.precipitation} mm</div>
-                  <div>Humidity: {weather.humidity}%</div>
-                  <div>Wind: {weather.windSpeed} mph</div>
-                  <div>UV Index: {weather.uvIndex}</div>
-                </div>
-              </div>
-              
-              <form className="location-form" onSubmit={handleCitySearch}>
-                <input
-                  type="text"
-                  placeholder="Change location..."
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  disabled={weatherLoading}
-                />
-                <button 
-                  type="submit" 
-                  className="location-btn"
-                  disabled={weatherLoading || !city.trim()}
-                >
-                  {weatherLoading ? "Loading..." : "Update"}
-                </button>
-              </form>
-            </div>
-          )}
-          
-          <button 
-            className="regenerate-btn" 
-            onClick={fetchRecommendations}
-            disabled={loading || !weather}
-          >
-            {loading ? "Generating..." : "Re-generate"}
-          </button>
+    <main>
+      <div className="outfit-recommendation-container">
+        <div className="outfit-header">
+          <h1>Outfit Generated</h1>
         </div>
         
-        {!weather ? (
-          <div className="weather-loading">Loading weather data...</div>
-        ) : loading ? (
-          <div className="loading">Generating outfit recommendations...</div>
-        ) : error ? (
-          <div className="error-container">
-            <div className="error">Error: {error}</div>
+        <div className="outfit-content">
+          <div className="weather-section">
+            {weather && (
+              <div className="weather-info">
+                <div className="location">{weather.location}</div>
+                <div className="weather-details">
+                  <div>{weather.temperature}°F</div>
+                  <div className="weather-condition">
+                    <span className="weather-icon">{getWeatherIcon(weather.condition)}</span>
+                    <span className="weather-text">{weather.condition}</span>
+                  </div>
+                  <div className="weather-extended">
+                    <div>Precipitation: {weather.precipitation} mm</div>
+                    <div>Humidity: {weather.humidity}%</div>
+                    <div>Wind: {weather.windSpeed} mph</div>
+                    <div>UV Index: {weather.uvIndex}</div>
+                  </div>
+                </div>
+                
+                <form className="location-form" onSubmit={handleCitySearch}>
+                  <input
+                    type="text"
+                    placeholder="Change location..."
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    disabled={weatherLoading}
+                  />
+                  <button 
+                    type="submit" 
+                    className="location-btn"
+                    disabled={weatherLoading || !city.trim()}
+                  >
+                    {weatherLoading ? "Loading..." : "Update"}
+                  </button>
+                </form>
+              </div>
+            )}
+            
             <button 
               className="regenerate-btn" 
               onClick={fetchRecommendations}
+              disabled={loading || !weather}
             >
-              Try Again
+              {loading ? "Generating..." : "Re-generate"}
             </button>
           </div>
-        ) : !outfit ? (
-          <div>No outfit recommendations available</div>
-        ) : (
-          <>
-            <div className="outfit-layout">
-              {/* Outerwear (left of top) */}
-              {outfit.jacket ? (
-                <div className="jacket-container">
-                  <div 
-                    className="shape-container clickable"
-                    onClick={() => handleItemClick("Jacket")}
-                  >
-                    <div className="clothing-icon">
-                      {getClothingIcon('Jacket', outfit.jacket.subCategory)}
-                    </div>
-                    <div className="item-label">
-                      <p className="item-name">{outfit.jacket.name}</p>
-                      <p className="item-category">{outfit.jacket.subCategory}</p>
-                    </div>
-                  </div>
-                  <div className="item-controls">
-                    <button className="cycle-btn small" onClick={cycleJacket}>→</button>
-                    <button className="remove-btn" onClick={() => handleRemoveItem("Jacket")}>✕</button>
-                  </div>
-                </div>
-              ) : (
-                <div className="jacket-container">
-                  <div className="add-item-container">
-                    <button 
-                      className="add-item-btn"
-                      onClick={() => handleAddOptionalItem("Jacket")}
+          
+          {!weather ? (
+            <div className="weather-loading">Loading weather data...</div>
+          ) : loading ? (
+            <div className="loading">Generating outfit recommendations...</div>
+          ) : error ? (
+            <div className="error-container">
+              <div className="error">Error: {error}</div>
+              <button 
+                className="regenerate-btn" 
+                onClick={fetchRecommendations}
+              >
+                Try Again
+              </button>
+            </div>
+          ) : !outfit ? (
+            <div>No outfit recommendations available</div>
+          ) : (
+            <>
+              <div className="outfit-layout">
+                {/* Outerwear (left of top) */}
+                {outfit.jacket ? (
+                  <div className="jacket-container">
+                    <div 
+                      className="shape-container clickable"
+                      onClick={() => handleItemClick("Jacket")}
                     >
-                      <span className="plus-icon">+</span>
-                      <span>Add Jacket</span>
-                    </button>
+                      <div className="clothing-icon">
+                        {getClothingIcon('Jacket', outfit.jacket.subCategory)}
+                      </div>
+                      <div className="item-label">
+                        <p className="item-name">{outfit.jacket.name}</p>
+                        <p className="item-category">{outfit.jacket.subCategory}</p>
+                      </div>
+                    </div>
+                    <div className="item-controls">
+                      <button className="cycle-btn small" onClick={cycleJacket}>→</button>
+                      <button className="remove-btn" onClick={() => handleRemoveItem("Jacket")}>✕</button>
+                    </div>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="jacket-container">
+                    <div className="add-item-container">
+                      <button 
+                        className="add-item-btn"
+                        onClick={() => handleAddOptionalItem("Jacket")}
+                      >
+                        <span className="plus-icon">+</span>
+                        <span>Add Jacket</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
 
-              {/* Vertical stack (top, bottom, shoes) */}
-              <div className="vertical-items">
-                {/* Top (show either the shirt or the first top if no layers) */}
-                {(bothTopLayers ? shirtItem : outfit.topItems?.[0]) && (
-                  <div className="item-row">
-                    <div 
-                      className="shape-container clickable" 
-                      onClick={() => handleItemClick(bothTopLayers ? shirtItem.category : outfit.topItems[0].category)}
-                    >
-                      <div className="clothing-icon">
-                        {getClothingIcon(
-                          bothTopLayers ? shirtItem.category : outfit.topItems[0].category,
-                          bothTopLayers ? shirtItem.item.subCategory : outfit.topItems[0].item.subCategory
-                        )}
+                {/* Vertical stack (top, bottom, shoes) */}
+                <div className="vertical-items">
+                  {/* Top (show either the shirt or the first top if no layers) */}
+                  {(bothTopLayers ? shirtItem : outfit.topItems?.[0]) && (
+                    <div className="item-row">
+                      <div 
+                        className="shape-container clickable" 
+                        onClick={() => handleItemClick(bothTopLayers ? shirtItem.category : outfit.topItems[0].category)}
+                      >
+                        <div className="clothing-icon">
+                          {getClothingIcon(
+                            bothTopLayers ? shirtItem.category : outfit.topItems[0].category,
+                            bothTopLayers ? shirtItem.item.subCategory : outfit.topItems[0].item.subCategory
+                          )}
+                        </div>
+                        <div className="item-label">
+                          <p className="item-name">
+                            {bothTopLayers 
+                              ? shirtItem.item.name 
+                              : outfit.topItems[0].item.name}
+                          </p>
+                          <p className="item-category">
+                            {bothTopLayers 
+                              ? shirtItem.item.subCategory 
+                              : outfit.topItems[0].item.subCategory}
+                          </p>
+                        </div>
                       </div>
-                      <div className="item-label">
-                        <p className="item-name">
-                          {bothTopLayers 
-                            ? shirtItem.item.name 
-                            : outfit.topItems[0].item.name}
-                        </p>
-                        <p className="item-category">
-                          {bothTopLayers 
-                            ? shirtItem.item.subCategory 
-                            : outfit.topItems[0].item.subCategory}
-                        </p>
-                      </div>
+                      <button className="cycle-btn small" onClick={cycleTop}>→</button>
                     </div>
-                    <button className="cycle-btn small" onClick={cycleTop}>→</button>
-                  </div>
-                )}
+                  )}
+                  
+                  {/* Bottom */}
+                  {outfit.bottomItem && (
+                    <div className="item-row">
+                      <div 
+                        className="shape-container clickable"
+                        onClick={() => handleItemClick(outfit.bottomItem.category)}
+                      >
+                        <div className="clothing-icon">
+                          {getClothingIcon(
+                            outfit.bottomItem.category,
+                            outfit.bottomItem.item.subCategory
+                          )}
+                        </div>
+                        <div className="item-label">
+                          <p className="item-name">{outfit.bottomItem.item.name}</p>
+                          <p className="item-category">{outfit.bottomItem.item.category}</p>
+                        </div>
+                      </div>
+                      <button className="cycle-btn small" onClick={cycleBottom}>→</button>
+                    </div>
+                  )}
+                  
+                  {/* Shoes */}
+                  {outfit.shoes && (
+                    <div className="item-row">
+                      <div 
+                        className="shape-container clickable"
+                        onClick={() => handleItemClick("Shoes")}
+                      >
+                        <div className="clothing-icon">
+                          {getClothingIcon('Shoes', outfit.shoes.subCategory)}
+                        </div>
+                        <div className="item-label">
+                          <p className="item-name">{outfit.shoes.name}</p>
+                          <p className="item-category">{outfit.shoes.subCategory}</p>
+                        </div>
+                      </div>
+                      <button className="cycle-btn small" onClick={cycleShoes}>→</button>
+                    </div>
+                  )}
+                </div>
                 
-                {/* Bottom */}
-                {outfit.bottomItem && (
-                  <div className="item-row">
+                {/* Sweater to the right, only if both shirt and sweater are present */}
+                {bothTopLayers && sweaterItem ? (
+                  <div className="sweater-container">
                     <div 
                       className="shape-container clickable"
-                      onClick={() => handleItemClick(outfit.bottomItem.category)}
+                      onClick={() => handleItemClick("Sweater")}
                     >
                       <div className="clothing-icon">
-                        {getClothingIcon(
-                          outfit.bottomItem.category,
-                          outfit.bottomItem.item.subCategory
-                        )}
+                        {getClothingIcon('Sweater', sweaterItem.item.subCategory)}
                       </div>
                       <div className="item-label">
-                        <p className="item-name">{outfit.bottomItem.item.name}</p>
-                        <p className="item-category">{outfit.bottomItem.item.category}</p>
+                        <p className="item-name">{sweaterItem.item.name}</p>
+                        <p className="item-category">{sweaterItem.item.subCategory}</p>
                       </div>
                     </div>
-                    <button className="cycle-btn small" onClick={cycleBottom}>→</button>
+                    <div className="item-controls">
+                      <button className="cycle-btn small" onClick={cycleTop}>→</button>
+                      <button className="remove-btn" onClick={() => handleRemoveItem("Sweater")}>✕</button>
+                    </div>
                   </div>
-                )}
-                
-                {/* Shoes */}
-                {outfit.shoes && (
-                  <div className="item-row">
-                    <div 
-                      className="shape-container clickable"
-                      onClick={() => handleItemClick("Shoes")}
-                    >
-                      <div className="clothing-icon">
-                        {getClothingIcon('Shoes', outfit.shoes.subCategory)}
+                ) : (
+                  <div className="sweater-container">
+                    {outfit.bottomItem && outfit.bottomItem.category !== "Dress" && (
+                      <div className="add-item-container">
+                        <button 
+                          className="add-item-btn"
+                          onClick={() => handleAddOptionalItem("Sweater")}
+                        >
+                          <span className="plus-icon">+</span>
+                          <span>Add Outer Layer</span>
+                        </button>
                       </div>
-                      <div className="item-label">
-                        <p className="item-name">{outfit.shoes.name}</p>
-                        <p className="item-category">{outfit.shoes.subCategory}</p>
-                      </div>
-                    </div>
-                    <button className="cycle-btn small" onClick={cycleShoes}>→</button>
+                    )}
                   </div>
                 )}
               </div>
               
-              {/* Sweater to the right, only if both shirt and sweater are present */}
-              {bothTopLayers && sweaterItem ? (
-                <div className="sweater-container">
-                  <div 
-                    className="shape-container clickable"
-                    onClick={() => handleItemClick("Sweater")}
-                  >
-                    <div className="clothing-icon">
-                      {getClothingIcon('Sweater', sweaterItem.item.subCategory)}
-                    </div>
-                    <div className="item-label">
-                      <p className="item-name">{sweaterItem.item.name}</p>
-                      <p className="item-category">{sweaterItem.item.subCategory}</p>
-                    </div>
-                  </div>
-                  <div className="item-controls">
-                    <button className="cycle-btn small" onClick={cycleTop}>→</button>
-                    <button className="remove-btn" onClick={() => handleRemoveItem("Sweater")}>✕</button>
-                  </div>
+              <div className="rating-section">
+                <div className="rating-label">Rate this outfit</div>
+                <div className="star-rating">
+                  {renderStarRating()}
                 </div>
-              ) : (
-                <div className="sweater-container">
-                  {outfit.bottomItem && outfit.bottomItem.category !== "Dress" && (
-                    <div className="add-item-container">
-                      <button 
-                        className="add-item-btn"
-                        onClick={() => handleAddOptionalItem("Sweater")}
-                      >
-                        <span className="plus-icon">+</span>
-                        <span>Add Outer Layer</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-            
-            <div className="rating-section">
-              <div className="rating-label">Rate this</div>
-              <div className="star-rating">
-                {renderStarRating()}
+                {ratingSuccess && <div className="rating-success">Rating saved!</div>}
+                {ratingError && <div className="rating-error">{ratingError}</div>}
               </div>
-              {ratingSuccess && <div className="rating-success">Rating saved!</div>}
-              {ratingError && <div className="rating-error">{ratingError}</div>}
-            </div>
-            
-            {/* Item Selection Panel */}
-            {showItemPanel && (
-              <>
-                <div className="panel-overlay" onClick={handleClosePanel}></div>
-                <ItemSelectionPanel
-                  category={selectedCategory}
-                  items={closetItems}
-                  onSelectItem={handleSelectItem}
-                  onClose={handleClosePanel}
-                />
-              </>
-            )}
-          </>
-        )}
+              
+              {/* Item Selection Panel */}
+              {showItemPanel && (
+                <>
+                  <div className="panel-overlay" onClick={handleClosePanel}></div>
+                  <ItemSelectionPanel
+                    category={selectedCategory}
+                    items={closetItems}
+                    onSelectItem={handleSelectItem}
+                    onClose={handleClosePanel}
+                  />
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
 

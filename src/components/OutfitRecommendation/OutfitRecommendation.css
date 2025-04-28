@@ -5,18 +5,25 @@
   --accent-color: #f0f0f0;
   --text-color: #333333;
   --border-radius: 0px;
-  --spacing: 40px;
+  --spacing: 25px;
   --font-family: 'Arial', 'Helvetica', sans-serif;
   --shape-color: #222;
   --shape-border: 2px solid var(--shape-color);
 }
 
+/* Main container centering */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .outfit-recommendation-container {
   background-color: var(--primary-color);
   border-radius: var(--border-radius);
-  padding: var(--spacing);
-  max-width: 1200px;
-  margin: 40px auto;
+  padding: var(--spacing) var(--spacing) 20px;
+  width: 100%;
+  margin: 20px 0;
   color: var(--text-color);
   font-family: var(--font-family);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -24,12 +31,12 @@
 
 .outfit-header {
   text-align: center;
-  margin-bottom: var(--spacing);
+  margin-bottom: 20px;
   position: relative;
 }
 
 .outfit-header h1 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -42,13 +49,13 @@
   width: 50px;
   height: 1px;
   background-color: var(--secondary-color);
-  margin: 20px auto 0;
+  margin: 15px auto 0;
 }
 
 .outfit-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing);
+  gap: 20px;
 }
 
 .weather-section {
@@ -166,8 +173,8 @@
 /* New outfit layout styling */
 .outfit-layout {
   display: flex;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 25px auto;
+  padding: 15px;
   border: 1px solid #eee;
   background-color: white;
   width: 1000px;
@@ -178,13 +185,13 @@
 .vertical-items {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   flex: 1;
 }
 
 .jacket-container {
-  margin-right: 60px;
-  padding-right: 60px;
+  margin-right: 40px;
+  padding-right: 40px;
   border-right: 1px solid #eee;
   display: flex;
   flex-direction: column;
@@ -192,8 +199,8 @@
 }
 
 .sweater-container {
-  margin-left: 60px;
-  padding-left: 60px;
+  margin-left: 40px;
+  padding-left: 40px;
   border-left: 1px solid #eee;
   display: flex;
   flex-direction: column;
@@ -217,10 +224,10 @@
 
 /* Clothing icon styles */
 .clothing-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   line-height: 1;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,8 +291,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  padding-top: 20px;
+  margin-top: 15px;
+  padding-top: 15px;
   border-top: 1px solid #e0e0e0;
 }
 
@@ -451,9 +458,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 120px;
-  min-height: 120px;
-  margin: 0 20px;
+  min-width: 110px;
+  min-height: 110px;
+  margin: 0 15px;
 }
 
 .add-item-btn {

@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router-dom";
 import { signIn } from "../../services/authService";
 import { UserContext, useUser } from "../../contexts/UserContext";
 import { jwtDecode } from 'jwt-decode';
+import "./SignInForm.css";
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -50,12 +51,16 @@ const SignInForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign In</h1>
+    <div className="signin-container">
+      <div className="signin-header">
+        <h1>Sign In</h1>
+      </div>
+      
       {error && <div className="error-message">{error}</div>}
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
+      
+      <form className="signin-form" autoComplete="off" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             autoComplete="off"
@@ -66,8 +71,9 @@ const SignInForm = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
+        
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             autoComplete="off"
@@ -78,11 +84,15 @@ const SignInForm = () => {
             required
           />
         </div>
-        <div>
-          <button type="submit">Sign In</button>
-        </div>
+        
+        <button className="signin-button" type="submit">Sign In</button>
       </form>
-    </main>
+      
+      <div className="signup-link">
+        Don't have an account?
+        <Link to="/signup">Sign Up</Link>
+      </div>
+    </div>
   );
 };
 

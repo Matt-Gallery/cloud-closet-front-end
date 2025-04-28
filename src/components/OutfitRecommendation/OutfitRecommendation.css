@@ -15,7 +15,7 @@
   background-color: var(--primary-color);
   border-radius: var(--border-radius);
   padding: var(--spacing);
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 40px auto;
   color: var(--text-color);
   font-family: var(--font-family);
@@ -166,10 +166,13 @@
 /* New outfit layout styling */
 .outfit-layout {
   display: flex;
-  margin: 40px 0;
+  margin: 40px auto;
   padding: 20px;
   border: 1px solid #eee;
   background-color: white;
+  width: 1000px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .vertical-items {
@@ -180,8 +183,8 @@
 }
 
 .jacket-container {
-  margin-right: 40px;
-  padding-right: 40px;
+  margin-right: 60px;
+  padding-right: 60px;
   border-right: 1px solid #eee;
   display: flex;
   flex-direction: column;
@@ -189,8 +192,8 @@
 }
 
 .sweater-container {
-  margin-left: 40px;
-  padding-left: 40px;
+  margin-left: 60px;
+  padding-left: 60px;
   border-left: 1px solid #eee;
   display: flex;
   flex-direction: column;
@@ -450,6 +453,7 @@
   justify-content: center;
   min-width: 120px;
   min-height: 120px;
+  margin: 0 20px;
 }
 
 .add-item-btn {
@@ -478,9 +482,10 @@
 }
 
 /* Make sure the jacket and sweater containers have consistent width */
-.jacket-container, .sweater-container {
+.jacket-container, .sweater-container, .add-item-container {
   min-width: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }

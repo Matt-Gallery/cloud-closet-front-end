@@ -3,33 +3,42 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext.jsx";
 import "./MyProfile.css";
 
-
 const MyProfile = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    name:     "",
-    gender:   "",
+    name: "",
+    gender: "",
     location: ""
   });
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3001/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const data = await res.json();
-      setFormData({
-        username: data.username || "",
-        password: "",
-        name:     data.name     || "",
-        gender:   data.gender   || "",
-        location: data.location || ""
-      });
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:3001/auth/profile", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (!res.ok) {
+          throw new Error(`Failed to fetch profile: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        setFormData({
+          username: data.username || "",
+          password: "",
+          name: data.name || "",
+          gender: data.gender || "",
+          location: data.location || ""
+        });
+      } catch (err) {
+        setError(err.message || "Failed to load profile data");
+      }
     };
     fetchUser();
   }, []);
@@ -41,73 +50,103 @@ const MyProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3001/auth/profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type":  "application/json",
-        Authorization:    `Bearer ${token}`
-      },
-      body: JSON.stringify(formData)
-    });
-    if (res.ok) {
+    setError("");
+    
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:3001/auth/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (!res.ok) {
+        throw new Error(`Failed to update profile: ${res.status}`);
+      }
+      
       const updatedUser = await res.json();
       setUser(updatedUser);
       navigate("/dashboard");
+    } catch (err) {
+      setError(err.message || "Failed to update profile");
     }
   };
 
   return (
-    <main className="profile-container">
+    <div className="profile-container">
       <h1>Edit Profile</h1>
+      
+      {error && <div className="error-message">{error}</div>}
+      
       <form className="profile-form" onSubmit={handleSubmit}>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label>New Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="password">New Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Leave blank to keep current password"
+          />
+        </div>
 
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+        </div>
 
-        <label>Gender / Pronouns:</label>
-        <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-        >
-          <option value="">Select</option>
-          <option value="he/him">He/Him</option>
-          <option value="she/her">She/Her</option>
-        </select>
+        <div className="form-group">
+          <label htmlFor="gender">Gender / Pronouns</label>
+          <select
+            id="gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+          >
+            <option value="">Select</option>
+            <option value="he/him">He/Him</option>
+            <option value="she/her">She/Her</option>
+            <option value="they/them">They/Them</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
 
-        <label>Location:</label>
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="location">Location</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+          />
+        </div>
 
         <button type="submit">Update Profile</button>
       </form>
-    </main>
+    </div>
   );
 };
 

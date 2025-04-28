@@ -1,0 +1,135 @@
+/* Landing page styling that matches the application's clean aesthetic */
+.landing-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.landing-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.landing-emoji {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.landing-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.landing-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.landing-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 60px;
+}
+
+.landing-button {
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.landing-button:hover {
+  background-color: #333;
+}
+
+.landing-button.secondary {
+  background-color: white;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.landing-button.secondary:hover {
+  background-color: #f5f5f5;
+}
+
+.landing-features {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.feature-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.feature-icon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.feature-description {
+  color: #666;
+  line-height: 1.4;
+  font-size: 0.85rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .landing-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .landing-title {
+    font-size: 2rem;
+  }
+  
+  .landing-features {
+    flex-wrap: wrap;
+  }
+  
+  .feature-card {
+    width: 150px;
+  }
+} 

@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/items`;
 
 /**
  * Get all items for a specific user
@@ -12,7 +12,7 @@ export const getUserItems = async (userId) => {
       throw new Error("User ID is required to fetch items");
     }
 
-    const res = await fetch(`${BASE_URL}/api/items/?userId=${userId}`, {
+    const res = await fetch(`${BASE_URL}?userId=${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { UserContext, useUser } from "../../contexts/UserContext.jsx";
 import "./MyProfile.css";
 
+// Use environment variable for API URL
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 const MyProfile = () => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
@@ -44,7 +47,7 @@ const MyProfile = () => {
         try {
           setLoading(true);
           const token = localStorage.getItem("token");
-          const res = await fetch("http://localhost:3001/auth/profile", {
+          const res = await fetch(`${API_URL}/auth/profile`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           
@@ -111,7 +114,7 @@ const MyProfile = () => {
       console.log("Sending profile data:", profileData);
       
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3001/auth/profile", {
+      const res = await fetch(`${API_URL}/auth/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

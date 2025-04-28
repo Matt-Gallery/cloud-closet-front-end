@@ -3,6 +3,8 @@ import { UserContext } from '../../contexts/UserContext';
 import { getUserOutfits } from '../../services/outfitService';
 import './OutfitsList.css';
 
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+
 const OutfitsList = () => {
   const { user } = useContext(UserContext);
   const [outfits, setOutfits] = useState([]);
@@ -16,7 +18,7 @@ const OutfitsList = () => {
     const fetchItems = async () => {
       try {
         setItemsLoading(true);
-        const response = await fetch("http://localhost:3001/api/items");
+        const response = await fetch(`${API_URL}/items`);
         
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);

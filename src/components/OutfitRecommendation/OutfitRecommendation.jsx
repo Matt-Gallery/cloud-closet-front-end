@@ -720,14 +720,16 @@ function OutfitRecommendation() {
                   </div>
                 </div>
               ) : (
-                <div className="add-item-container">
-                  <button 
-                    className="add-item-btn"
-                    onClick={() => handleAddOptionalItem("Jacket")}
-                  >
-                    <span className="plus-icon">+</span>
-                    <span>Add Jacket</span>
-                  </button>
+                <div className="jacket-container">
+                  <div className="add-item-container">
+                    <button 
+                      className="add-item-btn"
+                      onClick={() => handleAddOptionalItem("Jacket")}
+                    >
+                      <span className="plus-icon">+</span>
+                      <span>Add Jacket</span>
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -826,17 +828,19 @@ function OutfitRecommendation() {
                   </div>
                 </div>
               ) : (
-                outfit.bottomItem && outfit.bottomItem.category !== "Dress" && (
-                  <div className="add-item-container">
-                    <button 
-                      className="add-item-btn"
-                      onClick={() => handleAddOptionalItem("Sweater")}
-                    >
-                      <span className="plus-icon">+</span>
-                      <span>Add Outer Layer</span>
-                    </button>
-                  </div>
-                )
+                <div className="sweater-container">
+                  {outfit.bottomItem && outfit.bottomItem.category !== "Dress" && (
+                    <div className="add-item-container">
+                      <button 
+                        className="add-item-btn"
+                        onClick={() => handleAddOptionalItem("Sweater")}
+                      >
+                        <span className="plus-icon">+</span>
+                        <span>Add Outer Layer</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
             

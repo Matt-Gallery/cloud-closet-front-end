@@ -1,0 +1,15 @@
+/* Global centering styles */
+#root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Make sure the entire content is centered regardless of child components */
+.routes-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

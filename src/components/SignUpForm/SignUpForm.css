@@ -140,6 +140,14 @@
   text-decoration: underline;
 }
 
+.form-helper-text {
+  display: block;
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 5px;
+  font-style: italic;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .signup-container {

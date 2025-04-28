@@ -6,6 +6,8 @@ import { updateItem, deleteItem, getUserItems } from "../../services/itemService
 import getClothingIcon from "../../utils/clothingIcons.jsx";
 import './ClosetForm.css';
 
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+
 const ClosetForm = () => {
     const { user } = useUser();
     const [closetItems, setClosetItems] = useState([]);
@@ -107,7 +109,7 @@ const ClosetForm = () => {
                 weatherType: newItem.weatherType || [],
             };
 
-            const res = await fetch("http://localhost:3001/api/items", {
+            const res = await fetch(`${API_URL}/items`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(itemWithUser),

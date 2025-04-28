@@ -3,9 +3,7 @@
  */
 
 // Use a default URL if the environment variable is undefined
-const BASE_URL = import.meta.env.VITE_BACKEND_URL 
-  ? `${import.meta.env.VITE_BACKEND_URL}/api` 
-  : 'http://localhost:3001/api'; // replace with your actual backend URL
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
 
 /**
  * Get weather-based outfit recommendations
